@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class Pause : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    bool isPaused = false;
+    [SerializeField] GameObject pauseMenu;
+    private void Start()
     {
-        
+        pauseMenu.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void PauseGame()
     {
-        
+        if(!isPaused)
+        {
+            isPaused = true;
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            isPaused = false;
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 }

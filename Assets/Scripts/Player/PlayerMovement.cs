@@ -18,12 +18,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;            // Whether the player is touching the ground
     private Vector2 moveInput;          // Raw input from the player
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
-
+    private Pause pause;
     void Start()
     {
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
-
+        pause = FindObjectOfType<Pause>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -116,6 +116,13 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed && pause != null )
+        {
+            pause.PauseGame();
         }
     }
     #endregion
