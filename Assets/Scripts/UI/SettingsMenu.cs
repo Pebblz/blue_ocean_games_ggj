@@ -17,6 +17,7 @@ public class SettingsMenu : MonoBehaviour
     public Slider volumeSlider;
     public Toggle fullscreenToggle;
     public TMP_Dropdown graphicsDropDown;
+    TMP_Text text;
     private void Start()
     {
         resolutions = Screen.resolutions;
