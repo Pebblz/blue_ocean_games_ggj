@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lookInput;          // Raw input from the player mouse
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
 
+    [SerializeField] private GameObject model;      //The Player Model
     [SerializeField] private GameObject playerAimCore;      //The object the camera follows and rotates with
     [SerializeField] private Vector2 wantedVelocity;        //the wanted velocity when moving the mouse or joystick
     [SerializeField] private float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
@@ -122,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
                 
                 // Smoothly rotate towards the movement direction
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+                model.transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
             }
         }
         else
