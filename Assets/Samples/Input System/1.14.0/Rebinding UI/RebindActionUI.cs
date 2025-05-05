@@ -251,7 +251,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 PerformInteractiveRebind(action, bindingIndex);
             }
         }
-
         private void PerformInteractiveRebind(InputAction action, int bindingIndex, bool allCompositeParts = false)
         {
             m_RebindOperation?.Cancel(); // Will null out m_RebindOperation.
