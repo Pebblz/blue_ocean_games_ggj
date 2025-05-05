@@ -14,21 +14,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform cameraTransform;   // Reference to the main camera
 
 
-    private Rigidbody rb;                // Reference to the Rigidbody component
+    private Rigidbody rb;               // Reference to the Rigidbody component
     private bool isGrounded;            // Whether the player is touching the ground
     private Vector2 moveInput;          // Raw input from the player
     private Vector2 lookInput;          // Raw input from the player mouse
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
 
-    [SerializeField] private GameObject model;      //The Player Model
+    [SerializeField] private GameObject model;              //The Player Model
     [SerializeField] private GameObject playerAimCore;      //The object the camera follows and rotates with
     [SerializeField] private Vector2 wantedVelocity;        //the wanted velocity when moving the mouse or joystick
     [SerializeField] private float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
     [SerializeField] private float sensitivityY;            //holds sensitivity on y axis of either controller or mouse depending on input
-    [SerializeField] private Vector2 velocity = Vector2.zero;           //camera velocity
+    [SerializeField] private Vector2 velocity = Vector2.zero;//camera velocity
     [SerializeField] private Vector3 newCameraRot;          //new rotation for camera
-    [SerializeField] private float viewClampYmin = -30;         //min clamp value for pitch rotation
-    [SerializeField] private float viewClampYmax = 30;          //max clamp value for pitch rotation
+    [SerializeField] private float viewClampYmin = -30;     //min clamp value for pitch rotation
+    [SerializeField] private float viewClampYmax = 30;      //max clamp value for pitch rotation
 
 
     private Pause pause;
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
-        pause = FindAnyObjectByType<Pause>();
+        pause = FindFirstObjectByType<Pause>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -160,7 +160,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Read the 2D movement input
         lookInput = context.ReadValue<Vector2>();
-        Debug.Log(lookInput);
     }
     #endregion
 }
