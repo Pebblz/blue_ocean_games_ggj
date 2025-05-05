@@ -1,32 +1,30 @@
 using UnityEngine;
 
-/* 
-Remove later Moved to Player Stats project 
- 
- 
- 
- 
- 
- */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public class PlayerHealth : MonoBehaviour
+public enum PLAYER_STATS
 {
+    HEALTH,
+    DEFENSE,
+    STAMINA
+}
+
+
+public class PlayerStats : MonoBehaviour
+{
+
+
+    /*
+     Health   -- Health of the player
+     Defense  -- incoming damage reduction
+     Stamina  -- how much inventory can be held
+
+
+     */
     [SerializeField, Tooltip("Players health")] protected int health = 6;
     protected int startHealth;
+    [SerializeField, Tooltip("Players defense")] protected int defense = 6;
+    [SerializeField, Tooltip("Players stamina")] protected int stamina = 6;
+
     public int Health { get { return health; } set { health = value; } }
     [SerializeField, Tooltip("How long the player can't take damage for")] float iFrameTime = .1f;
     private float currentIframes;
@@ -48,10 +46,14 @@ public class PlayerHealth : MonoBehaviour
             currentIframes -= Time.deltaTime;
         }
     }
+
+    #region HEALTH
     public void DamagePlayer(int lostHealth)
     {
         if (currentIframes <= 0)
         {
+
+            //TODO: Incoprorate Defense stat into calculation
             //lose health
             health -= lostHealth;
 
@@ -100,5 +102,46 @@ public class PlayerHealth : MonoBehaviour
             health = amount;
         //update health UI
         //healthUI.UpdateHealth(health);
+    }
+    #endregion
+
+
+    public void addStat(PLAYER_STATS stat, int amount)
+    {
+        switch (stat)
+        {
+            case PLAYER_STATS.HEALTH:
+                startHealth += amount;
+                GainHealth(amount);
+                break;
+            case PLAYER_STATS.DEFENSE:
+                defense += amount;
+                break;
+            case PLAYER_STATS.STAMINA:
+                stamina += amount;
+                break;
+        }
+
+    }
+
+    public void removeStat(PLAYER_STATS stat, int amount)
+    {
+        switch (stat)
+        {
+            case PLAYER_STATS.HEALTH:
+                if (health - amount <= 0)
+                    health = 1;
+                else
+                    health -= amount;
+                startHealth -= amount;
+                break;
+            case PLAYER_STATS.DEFENSE:
+                defense -= amount;
+                break;
+            case PLAYER_STATS.STAMINA:
+                stamina -= amount;
+                break;
+        }
+
     }
 }

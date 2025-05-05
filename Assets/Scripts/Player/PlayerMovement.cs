@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private Rigidbody rb;                // Reference to the Rigidbody component
-    private bool isGrounded;            // Whether the player is touching the ground
+    public bool isGrounded;            // Whether the player is touching the ground
     private Vector2 moveInput;          // Raw input from the player
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
     private Pause pause;
