@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class Pause : MonoBehaviour
 {
     bool isPaused = false;
@@ -9,10 +8,14 @@ public class Pause : MonoBehaviour
     [SerializeField] GameObject keybindsMenu;
     private void Start()
     {
-        pauseMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-        keybindsMenu.SetActive(false);
-        gamepadMenu.SetActive(false);
+        if (pauseMenu != null)
+            pauseMenu.SetActive(false);
+        if(settingsMenu != null)
+            settingsMenu.SetActive(false);
+        if (keybindsMenu != null)
+            keybindsMenu.SetActive(false);
+        if (gamepadMenu != null)
+            gamepadMenu.SetActive(false);
     }
     public void PauseGame()
     {
