@@ -66,9 +66,9 @@ namespace Unity.Cinemachine.Samples
         void OnEnable()
         {
             m_Controller = GetComponentInParent<SimplePlayerControllerBase>();
-            if (m_Controller == null)
-                Debug.LogError("SimplePlayerController not found on parent object");
-            else
+            if (m_Controller != null)
+            //    Debug.LogError("SimplePlayerController not found on parent object");
+            //else
             {
                 m_Controller.PreUpdate -= UpdatePlayerRotation;
                 m_Controller.PreUpdate += UpdatePlayerRotation;
