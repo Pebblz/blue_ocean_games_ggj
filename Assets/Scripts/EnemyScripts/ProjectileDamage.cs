@@ -19,8 +19,10 @@ public class ProjectileDamage : MonoBehaviour
         {
             enemyHealth.GetHit(damage);
         }
-
         // Destroy the projectile on impact
-        Destroy(gameObject);
+        if (!col.isTrigger)
+        {
+            Destroy(gameObject);
+        }
     }
 } 
