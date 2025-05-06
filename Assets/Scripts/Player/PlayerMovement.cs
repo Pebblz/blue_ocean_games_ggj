@@ -29,8 +29,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector3 newCameraRot;          //new rotation for camera
     [SerializeField] private float viewClampYmin = -30;     //min clamp value for pitch rotation
     [SerializeField] private float viewClampYmax = 30;      //max clamp value for pitch rotation
-
-
+    //Temp vars DELETE BEFORE COMMITING
+    [SerializeField] GameObject TestDummy;
     private Pause pause;
     void Start()
     {
@@ -109,22 +109,19 @@ public class PlayerMovement : MonoBehaviour
         {
             // Calculate target velocity
             Vector3 targetVelocity = moveDirection * moveSpeed;
-            
+
             // Preserve the current vertical velocity
             targetVelocity.y = rb.linearVelocity.y;
-            
+
             // Apply the movement
             rb.linearVelocity = targetVelocity;
 
-            // Only rotate if we're not moving backward (when moveInput.y is positive)
-            if (moveInput.y >= 0)
-            {
-                // Calculate the target rotation
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                
-                // Smoothly rotate towards the movement direction
-                model.transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            }
+
+            // Calculate the target rotation
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            // Smoothly rotate towards the movement direction
+            model.transform.rotation = Quaternion.Lerp(model.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
         else
         {
@@ -150,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnPause(InputAction.CallbackContext context)
     {
-        if (context.performed && pause != null )
+        if (context.performed && pause != null)
         {
             pause.PauseGame();
         }
@@ -160,6 +157,13 @@ public class PlayerMovement : MonoBehaviour
     {
         // Read the 2D movement input
         lookInput = context.ReadValue<Vector2>();
+    }
+    public void TestFunctionDeleteLaterPwease(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            TestDummy.GetComponent<EnemyHealth>().GetHit(Random.Range(1, 100));
+        }
     }
     #endregion
 }
