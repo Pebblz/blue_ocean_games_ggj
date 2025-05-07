@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConveyerBelt : MonoBehaviour
+public class ConveyerBelt : MonoBehaviour, IActivatables
 {
     [SerializeField] private float speed;
     [SerializeField] private Vector3 direction;
     [SerializeField] private List<GameObject> onBeltOBJs;
-    [HideInInspector] public bool active = true;
+    [HideInInspector] bool active = false;
     private void FixedUpdate()
     {
         if (onBeltOBJs.Count > 0 && active)
@@ -19,16 +19,21 @@ public class ConveyerBelt : MonoBehaviour
     }
     private void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && !col.isTrigger)
         {
             onBeltOBJs.Add(col.transform.parent.gameObject);
         }
     }
     private void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && !col.isTrigger)
         {
             onBeltOBJs.Remove(col.transform.parent.gameObject);
         }
+    }
+
+    public void Activate()
+    {
+        active = !active;
     }
 }
