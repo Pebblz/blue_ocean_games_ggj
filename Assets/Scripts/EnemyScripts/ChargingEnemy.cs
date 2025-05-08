@@ -20,7 +20,7 @@ public class ChargingEnemy : MonoBehaviour
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();       
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -65,7 +65,7 @@ public class ChargingEnemy : MonoBehaviour
         isCharging = true;
         chargeTimer = 0f;
         cooldownTimer = 0f;
-        
+        navAgent.angularSpeed = 60;
         // Calculate charge direction towards player
         chargeDirection = (player.position - transform.position).normalized;
     }
@@ -74,5 +74,6 @@ public class ChargingEnemy : MonoBehaviour
     {
         isCharging = false;
         chargeTimer = 0f;
+        navAgent.angularSpeed = 120;
     }
 }
