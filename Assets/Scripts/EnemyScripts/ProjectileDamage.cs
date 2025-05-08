@@ -4,7 +4,8 @@ public class ProjectileDamage : MonoBehaviour
 {
     public int damage = 1;
     public float lifetime = 5f;
-
+    public bool damageEnemy = true;
+    public bool destroyOnHit = true;
     private void Start()
     {
         // Destroy the projectile after lifetime seconds
@@ -15,7 +16,7 @@ public class ProjectileDamage : MonoBehaviour
     {
         // Check if the hit object has a health component
         EnemyHealth enemyHealth = col.GetComponent<EnemyHealth>();
-        if (enemyHealth != null)
+        if (enemyHealth != null && damageEnemy)
         {
             enemyHealth.GetHit(damage);
         }
@@ -25,7 +26,7 @@ public class ProjectileDamage : MonoBehaviour
             stats.DamagePlayer(damage);
         }
         // Destroy the projectile on impact
-        if (!col.isTrigger)
+        if (!col.isTrigger && destroyOnHit)
         {
             Destroy(gameObject);
         }

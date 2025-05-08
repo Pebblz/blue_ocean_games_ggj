@@ -878,6 +878,10 @@ MonoBehaviour:
     spawnCost: 1
     phase: 000000000100000002000000
     enemyOBJ: {fileID: 6786379853170172531, guid: b6c74b5b1c1142e4abff4fb00f2d4bb0, type: 3}
+  - name: One armed Andy
+    spawnCost: 1
+    phase: 000000000100000002000000
+    enemyOBJ: {fileID: 2356386663981152242, guid: 5aa38dfcf104e1148bb71c9d300c4a0c, type: 3}
   spawnFrequency: 15
   spawnCount: 5
   spawnBox: {fileID: 1461309135}
@@ -14587,7 +14591,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 6
+  startHealth: 0
   iFrameTime: 0.1
+  currentIframes: 0
+  rb: {fileID: 0}
+  isDead: 0
 --- !u!114 &1540793085
 MonoBehaviour:
   m_ObjectHideFlags: 0
