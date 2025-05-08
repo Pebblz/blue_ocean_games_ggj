@@ -848,7 +848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &96985938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -862,18 +862,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesToSpawn:
-  - spawnCost: 1
-    difficulty: 0
+  - name: Chaser
+    spawnCost: 1
+    phase: 0000000001000000
     enemyOBJ: {fileID: 2730340130512638435, guid: 9d5417ffb68b8cf42b699a833142dc47, type: 3}
-  - spawnCost: 2
-    difficulty: 2
+  - name: FlyBoy
+    spawnCost: 2
+    phase: 0100000002000000
     enemyOBJ: {fileID: 3158261989291492224, guid: 9da7c761de54dc84e9fdb12df45ccfbf, type: 3}
-  - spawnCost: 1
-    difficulty: 0
+  - name: ShootyMicShooterDude
+    spawnCost: 1
+    phase: 0000000002000000
     enemyOBJ: {fileID: 1785229563834560674, guid: b23ba6e2dc440cf4db48db072da8ee6f, type: 3}
-  - spawnCost: 1
-    difficulty: 1
+  - name: Patrick The Hungry One
+    spawnCost: 1
+    phase: 000000000100000002000000
     enemyOBJ: {fileID: 6786379853170172531, guid: b6c74b5b1c1142e4abff4fb00f2d4bb0, type: 3}
+  - name: One armed Andy
+    spawnCost: 1
+    phase: 000000000100000002000000
+    enemyOBJ: {fileID: 2356386663981152242, guid: 5aa38dfcf104e1148bb71c9d300c4a0c, type: 3}
   spawnFrequency: 15
   spawnCount: 5
   spawnBox: {fileID: 1461309135}
@@ -14583,7 +14591,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 6
+  startHealth: 0
   iFrameTime: 0.1
+  currentIframes: 0
+  rb: {fileID: 0}
+  isDead: 0
 --- !u!114 &1540793085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14604,6 +14616,8 @@ MonoBehaviour:
     m_Bits: 8
   rotationSpeed: 10
   cameraTransform: {fileID: 0}
+  isGrounded: 0
+  isDoubleJump: 0
   model: {fileID: 0}
   playerAimCore: {fileID: 1471896749}
   wantedVelocity: {x: 0, y: 0}
@@ -14699,11 +14713,11 @@ GameObject:
   - component: {fileID: 1602000322}
   - component: {fileID: 1602000328}
   - component: {fileID: 1602000327}
-  - component: {fileID: 1602000326}
   - component: {fileID: 1602000325}
   - component: {fileID: 1602000324}
   - component: {fileID: 1602000323}
   - component: {fileID: 1602000329}
+  - component: {fileID: 1602000330}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -14982,20 +14996,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &1602000326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602000321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e15d4e54a0b7d4d933279b9805f0dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 6
-  iFrameTime: 0.1
 --- !u!114 &1602000327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15016,6 +15016,8 @@ MonoBehaviour:
     m_Bits: 8
   rotationSpeed: 10
   cameraTransform: {fileID: 0}
+  isGrounded: 0
+  isDoubleJump: 0
   model: {fileID: 1540793080}
   playerAimCore: {fileID: 1471896749}
   wantedVelocity: {x: 0, y: 0}
@@ -15059,6 +15061,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 1.48}
+--- !u!114 &1602000330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602000321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b642092a556b8dc4d80d3213cf7a196f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 6
+  defense: 6
+  stamina: 6
+  strength: 6
+  iFrameTime: 0.1
 --- !u!1 &1620800734
 GameObject:
   m_ObjectHideFlags: 0
