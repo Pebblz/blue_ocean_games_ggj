@@ -14,16 +14,34 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform cameraTransform;   // Reference to the main camera
 
 
+<<<<<<< HEAD
     private Rigidbody rb;                // Reference to the Rigidbody component
     public bool isGrounded;            // Whether the player is touching the ground
+=======
+    private Rigidbody rb;               // Reference to the Rigidbody component
+    private bool isGrounded;            // Whether the player is touching the ground
+>>>>>>> main
     private Vector2 moveInput;          // Raw input from the player
+    private Vector2 lookInput;          // Raw input from the player mouse
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
+
+    [SerializeField] private GameObject model;              //The Player Model
+    [SerializeField] private GameObject playerAimCore;      //The object the camera follows and rotates with
+    [SerializeField] private Vector2 wantedVelocity;        //the wanted velocity when moving the mouse or joystick
+    [SerializeField] private float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
+    [SerializeField] private float sensitivityY;            //holds sensitivity on y axis of either controller or mouse depending on input
+    [SerializeField] private Vector2 velocity = Vector2.zero;//camera velocity
+    [SerializeField] private Vector3 newCameraRot;          //new rotation for camera
+    [SerializeField] private float viewClampYmin = -30;     //min clamp value for pitch rotation
+    [SerializeField] private float viewClampYmax = 30;      //max clamp value for pitch rotation
+    //Temp vars DELETE BEFORE COMMITING
+    [SerializeField] GameObject TestDummy;
     private Pause pause;
     void Start()
     {
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
-        pause = FindObjectOfType<Pause>();
+        pause = FindFirstObjectByType<Pause>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -35,11 +53,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        //rotate the cameralook at with the cameras new rotation
+        playerAimCore.transform.localRotation = Quaternion.Euler(newCameraRot);
+    }
+
     // Update is called once per frame
     void Update()
     {
         // Check if the player is grounded using a raycast
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
+
+        wantedVelocity = lookInput * new Vector2(sensitivityX, sensitivityY);
+
+        velocity = new Vector2(wantedVelocity.x, wantedVelocity.y);
+
+        //camera pitch rotation clamped to a min and max value
+        newCameraRot.x += sensitivityY * -velocity.y /*lookVal.y*/ * Time.deltaTime;
+        newCameraRot.x = Mathf.Clamp(newCameraRot.x, viewClampYmin, viewClampYmax);
+
+        //camera yaw rotation 
+        newCameraRot.y += sensitivityX * velocity.x /*lookVal.x*/ * Time.deltaTime;
     }
 
     void FixedUpdate()
@@ -79,22 +114,19 @@ public class PlayerMovement : MonoBehaviour
         {
             // Calculate target velocity
             Vector3 targetVelocity = moveDirection * moveSpeed;
-            
+
             // Preserve the current vertical velocity
             targetVelocity.y = rb.linearVelocity.y;
-            
+
             // Apply the movement
             rb.linearVelocity = targetVelocity;
 
-            // Only rotate if we're not moving backward (when moveInput.y is positive)
-            if (moveInput.y >= 0)
-            {
-                // Calculate the target rotation
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                
-                // Smoothly rotate towards the movement direction
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            }
+
+            // Calculate the target rotation
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            // Smoothly rotate towards the movement direction
+            model.transform.rotation = Quaternion.Lerp(model.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
         else
         {
@@ -120,9 +152,22 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnPause(InputAction.CallbackContext context)
     {
-        if (context.performed && pause != null )
+        if (context.performed && pause != null)
         {
             pause.PauseGame();
+        }
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        // Read the 2D movement input
+        lookInput = context.ReadValue<Vector2>();
+    }
+    public void TestFunctionDeleteLaterPwease(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            TestDummy.GetComponent<EnemyHealth>().GetHit(Random.Range(1, 100));
         }
     }
     #endregion
