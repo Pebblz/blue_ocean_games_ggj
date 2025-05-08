@@ -14,13 +14,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform cameraTransform;   // Reference to the main camera
 
 
-<<<<<<< HEAD
+
     private Rigidbody rb;                // Reference to the Rigidbody component
     public bool isGrounded;            // Whether the player is touching the ground
-=======
-    private Rigidbody rb;               // Reference to the Rigidbody component
-    private bool isGrounded;            // Whether the player is touching the ground
->>>>>>> main
+    public bool isDoubleJump;            // Whether the player is double jumping
+
     private Vector2 moveInput;          // Raw input from the player
     private Vector2 lookInput;          // Raw input from the player mouse
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
@@ -37,11 +35,14 @@ public class PlayerMovement : MonoBehaviour
     //Temp vars DELETE BEFORE COMMITING
     [SerializeField] GameObject TestDummy;
     private Pause pause;
+    private PlayerEquipment equipment; 
     void Start()
     {
+        isDoubleJump = false;
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
         pause = FindFirstObjectByType<Pause>();
+        equipment = GetComponent<PlayerEquipment>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -64,7 +65,10 @@ public class PlayerMovement : MonoBehaviour
     {
         // Check if the player is grounded using a raycast
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
-
+        if (isGrounded && isDoubleJump)
+        {
+            isDoubleJump = false;
+        }
         wantedVelocity = lookInput * new Vector2(sensitivityX, sensitivityY);
 
         velocity = new Vector2(wantedVelocity.x, wantedVelocity.y);
@@ -145,9 +149,16 @@ public class PlayerMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         // Only jump if the button was pressed and the player is grounded
+        EquipmentPart legs;
+        equipment.equipment.TryGetValue(PART_LOCATION.LEGS, out legs);
         if (context.performed && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        } else if( context.performed && !isDoubleJump && legs is DoubleJumpEquipmentPart)
+        {
+            isGrounded = false;
+            isDoubleJump = true;
+            legs.Action();
         }
     }
     public void OnPause(InputAction.CallbackContext context)

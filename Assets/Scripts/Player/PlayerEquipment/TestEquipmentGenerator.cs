@@ -1,8 +1,26 @@
+using System;
 using UnityEngine;
 
 public class TestEquipmentGenerator : MonoBehaviour
 {
+
+    
     private void Start()
+    {
+        testDoubleJump();
+    }
+
+    public void testDoubleJump()
+    {
+        PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
+
+        EquipmentPart part = new DoubleJumpEquipmentPart();
+        part.movement = equipmentManager.GetComponent<PlayerMovement>();
+        equipmentManager.equip(part.partLocation,part);
+
+    }
+
+    public void testEquipmentGeneratorAndEquip()
     {
         EquipmentPart[] parts = new EquipmentPart[10];
         for (int i = 0; i < 10; i++)
@@ -14,7 +32,7 @@ public class TestEquipmentGenerator : MonoBehaviour
 
         PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
 
-        foreach(EquipmentPart p in parts)
+        foreach (EquipmentPart p in parts)
         {
             equipmentManager.equip(p.partLocation, p);
         }

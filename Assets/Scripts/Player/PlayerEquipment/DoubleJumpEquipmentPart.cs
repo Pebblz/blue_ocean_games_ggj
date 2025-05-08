@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class DoubleJumpEquipmentPart : EquipmentPart
 {
-    private Rigidbody body;
 
-    private Vector3 Force;
-    public float forceCoefficent = 3;
+    public float magnitude = 8f;
+    private Vector3 ForceDirection = Vector3.up;
     public DoubleJumpEquipmentPart() : base()
     {
 
@@ -17,11 +16,12 @@ public class DoubleJumpEquipmentPart : EquipmentPart
 
     public override void Action()
     {
-        Force = Vector3.up;
-        Force.x += body.linearVelocity.x;
-        Force.z += body.linearVelocity.z;
-        Force *= forceCoefficent;
-        body.AddForce(Force, ForceMode.Impulse);
+
+        ForceDirection = Vector3.up;
+        ForceDirection.x += body.linearVelocity.x;
+        ForceDirection.z += body.linearVelocity.z;
+        ForceDirection *= magnitude;
+        body.AddForce(ForceDirection, ForceMode.Impulse);
     }
 
 }

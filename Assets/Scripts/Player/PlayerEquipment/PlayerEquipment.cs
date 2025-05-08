@@ -33,7 +33,10 @@ public class PlayerEquipment : MonoBehaviour
             unequip(location);
         }
 
-        equipment[location] = part;
+        equipment[location] = part; 
+        
+        part.movement = stats.GetComponent<PlayerMovement>();
+        part.body = stats.GetComponent<Rigidbody>();
         foreach( KeyValuePair<PLAYER_STATS, int> kvp in part.playerStatChanges){
             stats.addStat(kvp.Key, kvp.Value);
         }

@@ -16,9 +16,9 @@ public abstract class EquipmentPart
 {
     public PlayerMovement movement;
     public PART_LOCATION partLocation;
-    protected PlayerEquipment playerEquipment;
     protected GameObject partObject;
     public Dictionary<PLAYER_STATS, int> playerStatChanges;
+    public Rigidbody body;
 
 
     public EquipmentPart()
