@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
 
             var hoverboots = legs as SustainedEquipment;
             hoverboots.ActionStart();
-        } else if ( context.canceled)
+        } else if ( context.canceled && legs is SustainedEquipment)
         {
             var hoverboots = legs as SustainedEquipment;
             hoverboots.ActionEnd();
