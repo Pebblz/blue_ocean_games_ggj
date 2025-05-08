@@ -13,13 +13,14 @@ public class HoverBoots : SustainedEquipment
 
     public override void ActionEnd()
     {
-       body.useGravity = true;
-       body.linearVelocity = new Vector3(body.linearVelocity.x, body.linearVelocity.y, 0);
+        body.useGravity = true;
+        body.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     public override void ActionStart()
     {
         timer.reset();
+        body.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         body.useGravity = false;
         timer.startTimer();
     }

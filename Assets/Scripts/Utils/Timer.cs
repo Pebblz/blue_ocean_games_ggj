@@ -18,7 +18,6 @@ public class Timer : MonoBehaviour
     {
         if (start_timer)
         {
-            Debug.Log("Is timer running?");
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
