@@ -139,10 +139,10 @@ public class FlyingEnemy : MonoBehaviour
     {
         if (isKamikazeMode && col.gameObject.CompareTag("Player"))
         {
-            Explode(col.GetComponent<PlayerHealth>());
+            Explode(col.GetComponent<PlayerStats>());
         }
     }
-    private void Explode(PlayerHealth health)
+    private void Explode(PlayerStats health)
     {
         // Spawn explosion effect
         if (explosionEffect != null)

@@ -19,6 +19,11 @@ public class ProjectileDamage : MonoBehaviour
         {
             enemyHealth.GetHit(damage);
         }
+        PlayerStats stats = col.GetComponent<PlayerStats>();
+        if (stats != null)
+        {
+            stats.DamagePlayer(damage);
+        }
         // Destroy the projectile on impact
         if (!col.isTrigger)
         {
