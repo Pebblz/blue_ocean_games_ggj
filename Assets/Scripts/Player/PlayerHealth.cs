@@ -1,5 +1,28 @@
 using UnityEngine;
 
+/* 
+Remove later Moved to Player Stats project 
+ 
+ 
+ 
+ 
+ 
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField, Tooltip("Players health")] protected int health = 6;
