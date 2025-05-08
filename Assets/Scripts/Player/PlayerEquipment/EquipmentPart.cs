@@ -14,8 +14,8 @@ public enum PART_LOCATION
 }
 public abstract class EquipmentPart 
 {
-    protected PlayerMovement movement;
-    protected PART_LOCATION partLocation;
+    public PlayerMovement movement;
+    public PART_LOCATION partLocation;
     protected PlayerEquipment playerEquipment;
     protected GameObject partObject;
     public Dictionary<PLAYER_STATS, int> playerStatChanges;
@@ -37,12 +37,31 @@ public abstract class EquipmentPart
 
     public void addStatAlteration(PLAYER_STATS stat, int amount)
     {
-        playerStatChanges.Add(stat, amount);
+        if (playerStatChanges.ContainsKey(stat))
+        {
+            playerStatChanges[stat] += amount;
+        }
+        else { 
+            playerStatChanges.Add(stat, amount);
+        }
     }
    
     public abstract void Action();
 
-    
+    public override string ToString()
+    {
+        string output = string.Empty;
+        output += partLocation.ToString();
+        output += " ";
+        foreach (var statChange in playerStatChanges)
+        {
+
+            output += $"{statChange.Key.ToString()}: {statChange.Value.ToString()} ";
+        }
+        return output;
+    }
+
+
 
 
 }

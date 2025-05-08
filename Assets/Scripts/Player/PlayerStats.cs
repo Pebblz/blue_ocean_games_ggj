@@ -5,7 +5,8 @@ public enum PLAYER_STATS
 {
     HEALTH,
     DEFENSE,
-    STAMINA
+    STAMINA,
+    STRENGTH
 }
 
 
@@ -24,6 +25,7 @@ public class PlayerStats : MonoBehaviour
     protected int startHealth;
     [SerializeField, Tooltip("Players defense")] protected int defense = 6;
     [SerializeField, Tooltip("Players stamina")] protected int stamina = 6;
+    [SerializeField, Tooltip("Players stamina")] protected int strength = 6;
 
     public int Health { get { return health; } set { health = value; } }
     [SerializeField, Tooltip("How long the player can't take damage for")] float iFrameTime = .1f;
@@ -111,14 +113,24 @@ public class PlayerStats : MonoBehaviour
         switch (stat)
         {
             case PLAYER_STATS.HEALTH:
-                startHealth += amount;
-                GainHealth(amount);
+                if(startHealth + amount <= 0)
+                    startHealth = 1;
+                if (health + amount <= 0)
+                    health = 1;
+                else
+                {
+                    startHealth += amount;
+                    GainHealth(amount);
+                }
                 break;
             case PLAYER_STATS.DEFENSE:
                 defense += amount;
                 break;
             case PLAYER_STATS.STAMINA:
                 stamina += amount;
+                break;
+            case PLAYER_STATS.STRENGTH:
+                strength += amount;
                 break;
         }
 
@@ -140,6 +152,9 @@ public class PlayerStats : MonoBehaviour
                 break;
             case PLAYER_STATS.STAMINA:
                 stamina -= amount;
+                break;
+            case PLAYER_STATS.STRENGTH:
+                strength += amount;
                 break;
         }
 

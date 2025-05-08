@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-public class EquipmentPartGenerator : MonoBehaviour
+public static class EquipmentPartGenerator 
 {
+
+    public static int MinStatChange = -5;
+    public static int MaxStatChange = 20;
 
     private static List<Type> EquipmentTypes = new List<Type>()
     {
@@ -15,7 +18,7 @@ public class EquipmentPartGenerator : MonoBehaviour
     };
 
 
-    public EquipmentPart generate()
+    public static EquipmentPart generate()
     {
         EquipmentPart part;
 
@@ -43,8 +46,19 @@ public class EquipmentPartGenerator : MonoBehaviour
 
 
 
-            //stat alterations
-            part.addStatAlteration
+        int numberOfAlterations = UnityEngine.Random.Range(1, 4);
+
+        for (int i = 0; i < numberOfAlterations; i++)
+        {
+            int numberOfStats = Enum.GetNames(typeof(PLAYER_STATS)).Length;
+
+            PLAYER_STATS statToAlter = (PLAYER_STATS)UnityEngine.Random.Range(0, numberOfStats);
+            int statAlterationAmount = UnityEngine.Random.Range(MinStatChange, MaxStatChange);
+            part.addStatAlteration(statToAlter, statAlterationAmount);
+
+
+        }
+
 
         
 

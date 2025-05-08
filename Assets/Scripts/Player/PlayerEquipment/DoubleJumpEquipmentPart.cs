@@ -8,12 +8,10 @@ public class DoubleJumpEquipmentPart : EquipmentPart
 
     private Vector3 Force;
     public float forceCoefficent = 3;
-    public DoubleJumpEquipmentPart(PlayerMovement movement) : base()
+    public DoubleJumpEquipmentPart() : base()
     {
 
         partLocation = PART_LOCATION.LEGS;
-        this.movement = movement;
-        body = movement.GetComponent<Rigidbody>();
 
     }
 

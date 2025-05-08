@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerEquipment : MonoBehaviour
 {
     public Dictionary<PART_LOCATION, EquipmentPart> equipment;
     public PlayerStats stats;
 
 
-    private void Start()
+    private void Awake()
     {
         equipment = new Dictionary<PART_LOCATION, EquipmentPart>();
         equipment.Add(PART_LOCATION.HEAD, new EmptyEquipmentPart());
@@ -16,7 +18,7 @@ public class PlayerEquipment : MonoBehaviour
         equipment.Add(PART_LOCATION.TORSO, new EmptyEquipmentPart());
         equipment.Add(PART_LOCATION.WAIST, new EmptyEquipmentPart());
         equipment.Add(PART_LOCATION.LEGS, new EmptyEquipmentPart());
-
+        stats = GetComponent<PlayerStats>();
     }
 
 
@@ -24,7 +26,9 @@ public class PlayerEquipment : MonoBehaviour
     public void equip(PART_LOCATION location, EquipmentPart part)
     {
 
-        if (equipment[location] is not EmptyEquipmentPart)
+        EquipmentPart oldEquip;
+        equipment.TryGetValue(location, out oldEquip);
+        if (oldEquip is not EmptyEquipmentPart)
         {
             unequip(location);
         }
@@ -50,8 +54,20 @@ public class PlayerEquipment : MonoBehaviour
             stats.removeStat(kvp.Key, kvp.Value);
         }
 
+        equipment[location] = new EmptyEquipmentPart();
+
         //TODO: unparent equipment model to player
 
+    }
+
+    public override string ToString()
+    {
+        string output = "";
+        foreach(var equip in equipment)
+        {
+            output += equip.ToString();
+        }
+        return output;
     }
 
 }
