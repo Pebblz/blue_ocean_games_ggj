@@ -156,9 +156,22 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         } else if( context.performed && !isDoubleJump && legs is DoubleJumpEquipmentPart)
         {
+            Debug.Log("Type of Legs: " + legs.GetType());
             isGrounded = false;
             isDoubleJump = true;
             legs.Action();
+        } else if( context.performed && !isDoubleJump && legs is HoverBoots)
+        {
+            Debug.Log("Type of Legs: " + legs.GetType());
+            isGrounded = false;
+            isDoubleJump = true;
+
+            var hoverboots = legs as SustainedEquipment;
+            hoverboots.ActionStart();
+        } else if ( context.canceled)
+        {
+            var hoverboots = legs as SustainedEquipment;
+            hoverboots.ActionEnd();
         }
     }
     public void OnPause(InputAction.CallbackContext context)

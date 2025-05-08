@@ -33,17 +33,35 @@ public class PlayerEquipment : MonoBehaviour
             unequip(location);
         }
 
-        equipment[location] = part; 
         
+            
         part.movement = stats.GetComponent<PlayerMovement>();
         part.body = stats.GetComponent<Rigidbody>();
         foreach( KeyValuePair<PLAYER_STATS, int> kvp in part.playerStatChanges){
             stats.addStat(kvp.Key, kvp.Value);
         }
 
+
+        if(part is SustainedEquipment)
+        {
+            var g = new GameObject();
+            g = Instantiate(g);
+
+            g.AddComponent<Timer>();
+            var timer = g.GetComponent<Timer>();
+            var sus = part as SustainedEquipment;
+            timer.onTimedOut = sus.ActionEnd;
+            timer.timer = sus.sustainTime;
+            timer.oneShot = sus.oneShot;
+            sus.timer = timer;
+            g.transform.parent = stats.gameObject.transform;
+            
+        }
         //TODO: parent equipment model to player
 
-        
+
+        equipment[location] = part;
+
     }
 
     public void unequip(PART_LOCATION location)
@@ -55,6 +73,13 @@ public class PlayerEquipment : MonoBehaviour
         foreach (KeyValuePair<PLAYER_STATS, int> kvp in part.playerStatChanges)
         {
             stats.removeStat(kvp.Key, kvp.Value);
+        }
+
+        if(part is SustainedEquipment)
+        {
+            var sus = part as SustainedEquipment;
+            Destroy(sus.timer.gameObject);
+            
         }
 
         equipment[location] = new EmptyEquipmentPart();

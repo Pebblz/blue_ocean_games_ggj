@@ -14,7 +14,8 @@ public static class EquipmentPartGenerator
     {
         typeof(BuffingEquipmentPart),
         typeof(MeleeEquipmentPart),
-        typeof(DoubleJumpEquipmentPart)
+        typeof(DoubleJumpEquipmentPart),
+        typeof(HoverBoots)
     };
 
 
@@ -34,9 +35,13 @@ public static class EquipmentPartGenerator
 
         //part location
 
-        if(part is DoubleJumpEquipmentPart) {
+        if(part is DoubleJumpEquipmentPart ) {
             part.partLocation = PART_LOCATION.LEGS;
-        } else
+        } else if (part is HoverBoots)
+        {   
+            part.partLocation = PART_LOCATION.LEGS;
+        }
+            else
         {
             int numberOfPartLocations = Enum.GetNames(typeof(PART_LOCATION)).Length;
             int partLocationIdx = UnityEngine.Random.Range(0, numberOfPartLocations);

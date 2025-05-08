@@ -4,10 +4,33 @@ using UnityEngine;
 public class TestEquipmentGenerator : MonoBehaviour
 {
 
-    
+    public enum Tests { 
+    DoubleJump,
+    HoverBoots,
+    RandomEquipmentGen}
+
+    public Tests testToRun = Tests.DoubleJump;
     private void Start()
     {
-        testDoubleJump();
+        switch (testToRun)
+        {
+            case Tests.DoubleJump:
+                testDoubleJump();
+                break;
+            case Tests.HoverBoots:
+                testHoverBoots();
+                break;
+            case Tests.RandomEquipmentGen:
+                testEquipmentGeneratorAndEquip();
+                break;
+        }
+    }
+    public void testHoverBoots()
+    {
+        PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
+        EquipmentPart part = new HoverBoots();
+        equipmentManager.equip(part.partLocation, part);
+
     }
 
     public void testDoubleJump()
