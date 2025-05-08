@@ -6,16 +6,10 @@ public class Pause : MonoBehaviour
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject gamepadMenu;
     [SerializeField] GameObject keybindsMenu;
+    [SerializeField] GameObject loseScreen;
     private void Start()
     {
-        if (pauseMenu != null)
-            pauseMenu.SetActive(false);
-        if(settingsMenu != null)
-            settingsMenu.SetActive(false);
-        if (keybindsMenu != null)
-            keybindsMenu.SetActive(false);
-        if (gamepadMenu != null)
-            gamepadMenu.SetActive(false);
+        DisableEverything();
     }
     public void PauseGame()
     {
@@ -28,10 +22,7 @@ public class Pause : MonoBehaviour
         else
         {
             isPaused = false;
-            pauseMenu.SetActive(false);
-            settingsMenu.SetActive(false);
-            keybindsMenu.SetActive(false);
-            gamepadMenu.SetActive(false);
+            DisableEverything();
             Time.timeScale = 1;
         }
     }
@@ -64,5 +55,19 @@ public class Pause : MonoBehaviour
     {
         settingsMenu.SetActive(true);
         gamepadMenu.SetActive(false);
+    }
+    public void DisableEverything()
+    {
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        keybindsMenu.SetActive(false);
+        gamepadMenu.SetActive(false);
+    }
+    public void LoseGame()
+    {
+        isPaused = true;
+        DisableEverything();
+        loseScreen.SetActive(true);
+        Time.timeScale = 0;
     }
 }
