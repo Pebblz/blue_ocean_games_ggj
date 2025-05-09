@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lookInput;          // Raw input from the player mouse
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
 
-    [SerializeField] private GameObject model;              //The Player Model
+    public GameObject model;              //The Player Model
     [SerializeField] private GameObject playerAimCore;      //The object the camera follows and rotates with
     [SerializeField] private Vector2 wantedVelocity;        //the wanted velocity when moving the mouse or joystick
     [SerializeField] private float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
@@ -35,7 +35,11 @@ public class PlayerMovement : MonoBehaviour
     //Temp vars DELETE BEFORE COMMITING
     [SerializeField] GameObject TestDummy;
     private Pause pause;
-    private PlayerEquipment equipment; 
+    private PlayerEquipment equipment;
+    [SerializeField] private bool aiming;
+    private float aimRotationSpeed = 0f;
+    private float aimSmoothTime = 0.02f;
+
     void Start()
     {
         isDoubleJump = false;
@@ -56,8 +60,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        //rotate the cameralook at with the cameras new rotation
-        playerAimCore.transform.localRotation = Quaternion.Euler(newCameraRot);
+        ////rotate the cameralook at with the cameras new rotation
+        //playerAimCore.transform.localRotation = Quaternion.Euler(newCameraRot);
     }
 
     // Update is called once per frame
@@ -83,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        //rotate the cameralook at with the cameras new rotation
+        playerAimCore.transform.localRotation = Quaternion.Euler(newCameraRot);
+
         // Calculate camera-relative movement direction
         CalculateMovementDirection();
 
@@ -107,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Calculate the movement direction relative to camera orientation
         moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+
     }
 
     /// <summary>
@@ -114,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void ApplyMovement()
     {
-        if (moveDirection != Vector3.zero)
+        if (moveDirection != Vector3.zero && !aiming)
         {
             // Calculate target velocity
             Vector3 targetVelocity = moveDirection * moveSpeed;
@@ -125,12 +133,39 @@ public class PlayerMovement : MonoBehaviour
             // Apply the movement
             rb.linearVelocity = targetVelocity;
 
-
             // Calculate the target rotation
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
 
             // Smoothly rotate towards the movement direction
             model.transform.rotation = Quaternion.Lerp(model.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+
+        } else if (moveDirection != Vector3.zero && aiming)
+        {
+            // Calculate target velocity
+            Vector3 targetVelocity = moveDirection * moveSpeed;
+
+            // Preserve the current vertical velocity
+            targetVelocity.y = rb.linearVelocity.y;
+
+            // Apply the movement
+            rb.linearVelocity = targetVelocity;
+
+            // angle for player y rotation
+            float rotationAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, newCameraRot.y, ref aimRotationSpeed, aimSmoothTime);
+
+            // rotate player to follow camera only on the y
+            model.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
+
+        } else if (moveDirection == Vector3.zero && aiming)
+        {
+            // angle for player y rotation
+            float rotationAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, newCameraRot.y, ref aimRotationSpeed, aimSmoothTime);
+
+            // rotate player to follow camera only on the y
+            model.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
+
+            // Stop horizontal movement when no input
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
         }
         else
         {
@@ -153,6 +188,7 @@ public class PlayerMovement : MonoBehaviour
         equipment.equipment.TryGetValue(PART_LOCATION.LEGS, out legs);
         if (context.performed && isGrounded)
         {
+            aiming = false;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         } else if( context.performed && !isDoubleJump && legs is DoubleJumpEquipmentPart)
         {
@@ -186,6 +222,17 @@ public class PlayerMovement : MonoBehaviour
     {
         // Read the 2D movement input
         lookInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        if (context.performed && isGrounded)
+        {
+            aiming = true;
+        } else if (context.canceled)
+        {
+            aiming = false;
+        }
     }
     public void TestFunctionDeleteLaterPwease(InputAction.CallbackContext context)
     {

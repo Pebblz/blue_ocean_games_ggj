@@ -67,8 +67,12 @@ namespace Unity.Cinemachine.Samples
             var fwd = transform.forward;
             bool decoupled = AimController != null 
                 && AimController.PlayerRotation == SimplePlayerAimController.CouplingMode.Decoupled;
-            if (decoupled)
-                fwd = transform.parent.forward;
+            if (decoupled && transform.parent.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+                fwd = player.model.transform.forward;
+
+            ////original
+            //if (decoupled)
+            //    fwd = transform.parent.forward;
             
             // Face the firing direction if appropriate
             if (AimController != null && !decoupled)
