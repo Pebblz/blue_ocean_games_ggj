@@ -59,7 +59,10 @@ public class ChargingEnemy : MonoBehaviour
             }
         }
     }
-
+    private void OnCollisionEnter(Collision col)
+    {
+        
+    }
     void StartCharging()
     {
         isCharging = true;
