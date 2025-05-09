@@ -8,7 +8,7 @@ public class ChargingEnemy : MonoBehaviour
     public float chargeDuration = 2f;
     public float chargeCooldown = 3f;
     public float chargeRadius = 10f;
-
+    public int damageAmount = 1;
     private NavMeshAgent navAgent;
     private Transform player;
     private bool isCharging = false;
@@ -61,7 +61,12 @@ public class ChargingEnemy : MonoBehaviour
     }
     private void OnCollisionEnter(Collision col)
     {
-        
+        PlayerStats health = col.gameObject.GetComponent<PlayerStats>();
+        if(health != null)
+        {
+            health.DamagePlayer(damageAmount);
+            StopCharging();
+        }
     }
     void StartCharging()
     {
