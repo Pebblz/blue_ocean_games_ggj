@@ -39,7 +39,18 @@ public class EnemyManager : MonoBehaviour
         List<Enemies> enemies = GetRandomEnemies(spawnPhase);
         foreach (Enemies e in enemies)
         {
-            GameObject g = Instantiate(e.enemyOBJ,GetRandomPositionOnNavMesh(),Quaternion.identity);
+            if (!e.spawnInGroups)
+            {
+                GameObject g = Instantiate(e.enemyOBJ, GetRandomPositionOnNavMesh(), Quaternion.identity);
+            }
+            else
+            {
+                Vector3 v = GetRandomPositionOnNavMesh();
+                for (int i = 0; i < e.numberToSpawn; i++)
+                {
+                    GameObject g = Instantiate(e.enemyOBJ, new Vector3(Random.Range(v.x - 2, v.x + 2), v.y, Random.Range(v.z - 2, v.z + 2)), Quaternion.identity);
+                }
+            }
         }
         //makes sure we keep spawning enemies over time
         spawnTimer = spawnFrequency;
@@ -48,16 +59,30 @@ public class EnemyManager : MonoBehaviour
     {
         //the list being returned
         List<Enemies> listToReturn = new List<Enemies>();
-        for (int i = 0;i < spawnCount;)
+        for (int i = 0; i < spawnCount;)
         {
             //gets a random enemy in the list
             int spawnNum = Random.Range(0, avalibleEnemiesForPhase.Count);
             //this makes sure the enemy cost doesn't exceed the count
-            if (avalibleEnemiesForPhase[spawnNum].spawnCost + i <= spawnCount)
+
+            listToReturn.Add(avalibleEnemiesForPhase[spawnNum]);
+            if (!avalibleEnemiesForPhase[spawnNum].spawnInGroups)
             {
-                listToReturn.Add(avalibleEnemiesForPhase[spawnNum]);
-                i += avalibleEnemiesForPhase[spawnNum].spawnCost;
+                if (avalibleEnemiesForPhase[spawnNum].spawnCost + i <= spawnCount)
+                {
+                    i += avalibleEnemiesForPhase[spawnNum].spawnCost;
+                }
             }
+            else
+            {
+                int n = Random.Range(avalibleEnemiesForPhase[spawnNum].groupSizeMin, avalibleEnemiesForPhase[spawnNum].groupSizeMax + 1);
+                if (avalibleEnemiesForPhase[spawnNum].spawnCost + i <= (spawnCount * n))
+                {
+                    i += (avalibleEnemiesForPhase[spawnNum].spawnCost * n);
+                    avalibleEnemiesForPhase[spawnNum].numberToSpawn = n;
+                }
+            }
+
         }
         return listToReturn;
     }
@@ -81,7 +106,6 @@ public class EnemyManager : MonoBehaviour
                 if (currentPhase == enemiesToSpawn[i].phase[j])
                 {
                     avalibleEnemies.Add(enemiesToSpawn[i]);
-                    print(enemiesToSpawn[i].name);
                     break;
                 }
             }
@@ -99,7 +123,7 @@ public class EnemyManager : MonoBehaviour
         Bounds bounds = spawnBox.GetComponent<Collider>().bounds;
         float offsetX = Random.Range(-bounds.extents.x, bounds.extents.x);
         float offestZ = Random.Range(-bounds.extents.z, bounds.extents.z);
-        finalPosition = bounds.center + new Vector3(offsetX,0,offestZ);
+        finalPosition = bounds.center + new Vector3(offsetX, 0, offestZ);
         //----------------------------------------
         //this makes sure the point we get is on the navmesh
         if (NavMesh.SamplePosition(finalPosition, out hit, 5, 1))
@@ -114,13 +138,21 @@ public class Enemies
 {
     [Tooltip("This is the name of the enemy. This is just to help debug")]
     public string name;
-    [Tooltip("how many points this will count for for the mananger spawn count. Higher number = more difficult")] 
+    [Tooltip("how many points this will count for for the mananger spawn count. Higher number = more difficult")]
     public int spawnCost = 1; // how many enemy spot this enemy should count for
     [Tooltip("Adding all phases will spawn the enemies in all the phases. if you do one " +
         "it'll only add during that phase. Only add 1 of each phase to the array")]
     public SpawnPhase[] phase; // this will tell the manager when to spawn the enemy
-    [Tooltip("Enemy object")]
+    [Tooltip("Enemy game object")]
     public GameObject enemyOBJ; // the gameObject for the enemy
+    [Tooltip("If this enemy should spawn in a group of the same enemy")]
+    public bool spawnInGroups = false;
+    [Tooltip("if SpawnInGroups = false; this does nothing. This decides the min amount of this enemy to spawn at once.")]
+    public int groupSizeMin = 2;
+    [Tooltip("if SpawnInGroups = false; this does nothing. This decides the max amount of this enemy to spawn at once.")]
+    public int groupSizeMax = 3;
+
+    [HideInInspector] public int numberToSpawn;
 }
 public enum SpawnPhase
 {
