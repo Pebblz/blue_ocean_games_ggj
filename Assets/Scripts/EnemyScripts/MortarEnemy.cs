@@ -4,20 +4,19 @@ using UnityEngine.AI;
 
 public class MortarEnemy : MonoBehaviour
 {
-    [Header("Target Settings")]
-    private Transform player;
-    public float baseProjectileSpeed = 9f; // Significantly reduced base speed
-    public Transform firePoint;
-
     [Header("Shooting Settings")]
     public GameObject mortarProjectile;
     public GameObject directProjectile;
+    public Transform firePoint;
     public float shootInterval = 3f;
     public float predictionTime = 0.1f; // Further reduced prediction time
     public float minDistance = 5f;
     public float maxDistance = 30f;
     public float closeRangeThreshold = 8f;
 
+
+    private Transform player;
+    private float baseProjectileSpeed = 11f; // Significantly reduced base speed
     private float nextShootTime;
     private NavMeshAgent agent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
