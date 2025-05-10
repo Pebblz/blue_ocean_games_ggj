@@ -38,7 +38,7 @@ public class TestEquipmentGenerator : MonoBehaviour
         PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
 
         EquipmentPart part = new DoubleJumpEquipmentPart();
-        part.movement = equipmentManager.GetComponent<PlayerMovement>();
+        part.movement = equipmentManager.gameObject.GetComponent<PlayerMovement>();
         equipmentManager.equip(part.partLocation,part);
 
     }
