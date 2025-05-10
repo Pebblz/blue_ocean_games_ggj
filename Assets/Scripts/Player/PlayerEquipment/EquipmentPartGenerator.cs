@@ -34,7 +34,7 @@ public static class EquipmentPartGenerator
         part = (EquipmentPart) obj;
 
 
-        if(part.partLocation == default ){
+        if(part.partLocation == default){
             int numberOfPartLocations = Enum.GetNames(typeof(PART_LOCATION)).Length;
             int partLocationIdx = UnityEngine.Random.Range(0, numberOfPartLocations);
 
