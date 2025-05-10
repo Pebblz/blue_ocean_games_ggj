@@ -16,7 +16,6 @@ public class PlayerEquipment : MonoBehaviour
         equipment.Add(PART_LOCATION.LEFT_ARM, new EmptyEquipmentPart());
         equipment.Add(PART_LOCATION.RIGHT_ARM, new EmptyEquipmentPart());
         equipment.Add(PART_LOCATION.TORSO, new EmptyEquipmentPart());
-        equipment.Add(PART_LOCATION.WAIST, new EmptyEquipmentPart());
         equipment.Add(PART_LOCATION.LEGS, new EmptyEquipmentPart());
         stats = GetComponent<PlayerStats>();
     }
