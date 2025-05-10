@@ -33,7 +33,8 @@ public static class EquipmentPartGenerator
         var obj = ctors[0].Invoke(null);
         part = (EquipmentPart) obj;
 
-
+        //randomize part if the class does not have a designated location.
+        //By default it is the head, may need to refactor if we add stuff that needs to be on the head.
         if(part.partLocation == default){
             int numberOfPartLocations = Enum.GetNames(typeof(PART_LOCATION)).Length;
             int partLocationIdx = UnityEngine.Random.Range(0, numberOfPartLocations);
@@ -55,10 +56,6 @@ public static class EquipmentPartGenerator
 
 
         }
-
-
-        
-
         
         return part;
 
