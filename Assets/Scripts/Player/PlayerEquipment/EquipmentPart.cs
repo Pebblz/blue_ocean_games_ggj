@@ -9,7 +9,6 @@ public enum PART_LOCATION
     LEFT_ARM,
     RIGHT_ARM,
     TORSO,
-    WAIST,
     LEGS
 }
 public abstract class EquipmentPart 

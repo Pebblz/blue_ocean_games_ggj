@@ -33,16 +33,8 @@ public static class EquipmentPartGenerator
         var obj = ctors[0].Invoke(null);
         part = (EquipmentPart) obj;
 
-        //part location
 
-        if(part is DoubleJumpEquipmentPart ) {
-            part.partLocation = PART_LOCATION.LEGS;
-        } else if (part is HoverBoots)
-        {   
-            part.partLocation = PART_LOCATION.LEGS;
-        }
-            else
-        {
+        if(part.partLocation == default ){
             int numberOfPartLocations = Enum.GetNames(typeof(PART_LOCATION)).Length;
             int partLocationIdx = UnityEngine.Random.Range(0, numberOfPartLocations);
 

@@ -25,6 +25,13 @@ public class TestEquipmentGenerator : MonoBehaviour
                 break;
         }
     }
+
+    public void testMeleeEquipment()
+    {
+        PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
+        EquipmentPart part = new MeleeEquipmentPart();
+        equipmentManager.equip(part.partLocation, part);
+    }
     public void testHoverBoots()
     {
         PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();

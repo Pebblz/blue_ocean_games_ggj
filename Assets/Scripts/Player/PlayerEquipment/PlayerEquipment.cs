@@ -9,6 +9,10 @@ public class PlayerEquipment : MonoBehaviour
     public PlayerStats stats;
 
 
+
+    public GameObject meleeHitBox;
+
+
     private void Awake()
     {
         equipment = new Dictionary<PART_LOCATION, EquipmentPart>();
@@ -45,7 +49,7 @@ public class PlayerEquipment : MonoBehaviour
         {
             var g = new GameObject();
             g = Instantiate(g);
-
+            g.name = part.GetType().ToString() + " Timer";
             g.AddComponent<Timer>();
             var timer = g.GetComponent<Timer>();
             var sus = part as SustainedEquipment;
@@ -55,6 +59,16 @@ public class PlayerEquipment : MonoBehaviour
             sus.timer = timer;
             g.transform.parent = stats.gameObject.transform;
             
+        }
+
+        if(part is MeleeEquipmentPart)
+        {
+            var melee = part as MeleeEquipmentPart;
+            var hitbox = Instantiate(meleeHitBox);
+            hitbox.name = part.GetType().ToString() + " Hitbox";
+            melee.hitbox = hitbox;
+            hitbox.transform.parent = stats.gameObject.transform;
+            hitbox.transform.position += Vector3.forward;
         }
         //TODO: parent equipment model to player
 
