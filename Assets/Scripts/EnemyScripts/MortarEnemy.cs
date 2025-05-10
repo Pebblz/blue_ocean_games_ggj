@@ -2,7 +2,7 @@ using Unity.Cinemachine.Samples;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MortarEnemy : MonoBehaviour
+public class MortarEnemy : MonoBehaviour, IEnemy
 {
     [Header("Shooting Settings")]
     public GameObject mortarProjectile;
@@ -23,8 +23,6 @@ public class MortarEnemy : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        // Find the player if not assigned
-        player = GameObject.FindGameObjectWithTag("Player").transform; 
     }
 
     // Update is called once per frame
@@ -154,5 +152,10 @@ public class MortarEnemy : MonoBehaviour
         velocityVector.y = speed * Mathf.Sin(angleRad);
         
         return velocityVector;
+    }
+
+    public void SetPlayer(Transform t)
+    {
+        player = t;
     }
 }
