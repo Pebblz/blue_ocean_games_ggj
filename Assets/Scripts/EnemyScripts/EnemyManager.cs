@@ -13,8 +13,10 @@ public class EnemyManager : MonoBehaviour
     private List<Enemies> avalibleEnemiesForPhase;
     private float spawnTimer;
     SpawnPhase spawnPhase = SpawnPhase.phaseOne;
+    Transform player;
     private void Start()
     {
+        player = Player.Instance.gameObject.transform;
         //this is just to test
         GetPhaseEnemies();
         SpawnEnemies();
@@ -36,12 +38,13 @@ public class EnemyManager : MonoBehaviour
     public void SpawnEnemies()
     {
         //populates the list with random enemies 
-        List<Enemies> enemies = GetRandomEnemies(spawnPhase);
+        List<Enemies> enemies = GetRandomEnemies();
         foreach (Enemies e in enemies)
         {
             if (!e.spawnInGroups)
             {
                 GameObject g = Instantiate(e.enemyOBJ, GetRandomPositionOnNavMesh(), Quaternion.identity);
+                g.GetComponent<IEnemy>().SetPlayer(player);
             }
             else
             {
@@ -49,13 +52,14 @@ public class EnemyManager : MonoBehaviour
                 for (int i = 0; i < e.numberToSpawn; i++)
                 {
                     GameObject g = Instantiate(e.enemyOBJ, new Vector3(Random.Range(v.x - 2, v.x + 2), v.y, Random.Range(v.z - 2, v.z + 2)), Quaternion.identity);
+                    g.GetComponent<IEnemy>().SetPlayer(player);
                 }
             }
         }
         //makes sure we keep spawning enemies over time
         spawnTimer = spawnFrequency;
     }
-    private List<Enemies> GetRandomEnemies(SpawnPhase currentPhase)
+    private List<Enemies> GetRandomEnemies()
     {
         //the list being returned
         List<Enemies> listToReturn = new List<Enemies>();

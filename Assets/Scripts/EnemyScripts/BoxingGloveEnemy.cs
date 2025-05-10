@@ -5,7 +5,7 @@ using System.Collections;
 /// <summary>
 /// Enemy that uses NavMesh to move around and shoots a projectile that travels a certain distance and returns like a boomerang
 /// </summary>
-public class BoxingGloveEnemy : MonoBehaviour
+public class BoxingGloveEnemy : MonoBehaviour, IEnemy
 {
     [Header("Projectile Settings")]
     [Tooltip("The projectile prefab to be shot")]
@@ -50,9 +50,6 @@ public class BoxingGloveEnemy : MonoBehaviour
 
         // Configure NavMeshAgent
         navAgent.stoppingDistance = shootRange * 0.8f; // Stop slightly before shoot range
-
-        // Find player
-        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -134,5 +131,10 @@ public class BoxingGloveEnemy : MonoBehaviour
         {
             isProjectileReturning = true;
         }
+    }
+
+    public void SetPlayer(Transform t)
+    {
+        player = t;
     }
 }

@@ -1,14 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChasingEnemy : MonoBehaviour
+public class ChasingEnemy : MonoBehaviour, IEnemy
 {
     private NavMeshAgent agent;
     private Transform target;
     private void Start()
     {
-        //later make the enemy spawn manager set the player transform;
-        target = FindFirstObjectByType<PlayerMovement>().transform;
         agent = GetComponent<NavMeshAgent>();
     }
     private void Update()
@@ -21,5 +19,10 @@ public class ChasingEnemy : MonoBehaviour
     void Attack()
     {
 
+    }
+
+    public void SetPlayer(Transform t)
+    {
+        target = t;
     }
 }

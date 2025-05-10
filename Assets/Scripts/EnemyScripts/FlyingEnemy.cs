@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class FlyingEnemy : MonoBehaviour
+public class FlyingEnemy : MonoBehaviour, IEnemy
 {
     [Header("Target Settings")]
     [SerializeField] private float attackRange = 15f;
@@ -33,7 +33,7 @@ public class FlyingEnemy : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+
         // Random start phase for hover
         hoverOffset = Random.Range(0f, 2f * Mathf.PI);
         // Set initial height to hoverHeight
@@ -77,7 +77,10 @@ public class FlyingEnemy : MonoBehaviour
             }
         }
     }
-
+    public void SetPlayer(Transform p)
+    {
+        player = p;
+    }
     private void MoveTowardsPlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;

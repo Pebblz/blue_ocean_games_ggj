@@ -10,6 +10,7 @@ public class Pause : MonoBehaviour
     private void Start()
     {
         DisableEverything();
+        DisableCursor();
     }
     public void PauseGame()
     {
@@ -18,13 +19,26 @@ public class Pause : MonoBehaviour
             isPaused = true;
             pauseMenu.SetActive(true);
             Time.timeScale = 0;
+            EnableCursor();
         }
         else
         {
             isPaused = false;
             DisableEverything();
             Time.timeScale = 1;
+            DisableCursor();
         }
+    }
+
+    public void DisableCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    public void EnableCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     public void OpenSettings()
     {

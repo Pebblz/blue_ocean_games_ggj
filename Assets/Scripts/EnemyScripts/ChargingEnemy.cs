@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChargingEnemy : MonoBehaviour
+public class ChargingEnemy : MonoBehaviour, IEnemy
 {
     [Header("Movement Settings")]
     public float chargeSpeed = 10f;
@@ -20,7 +20,6 @@ public class ChargingEnemy : MonoBehaviour
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();       
-        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -83,5 +82,10 @@ public class ChargingEnemy : MonoBehaviour
         isCharging = false;
         chargeTimer = 0f;
         navAgent.angularSpeed = 120;
+    }
+
+    public void SetPlayer(Transform t)
+    {
+        player = t;
     }
 }
