@@ -5,10 +5,13 @@ public class EnemyAttackHitBox : MonoBehaviour
     [SerializeField, Tooltip("Damage done by attack")] int damage = 1;
     private void OnTriggerEnter(Collider col)
     {
-        PlayerStats stats = col.GetComponent<PlayerStats>();
-        if(stats != null )
+        if (col.transform.parent != null)
         {
-            stats.DamagePlayer(damage);
+            PlayerStats stats = col.transform.parent.GetComponent<PlayerStats>();
+            if (stats != null)
+            {
+                stats.DamagePlayer(damage);
+            }
         }
     }
 }
