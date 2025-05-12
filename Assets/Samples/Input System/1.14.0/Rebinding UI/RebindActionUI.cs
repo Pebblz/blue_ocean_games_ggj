@@ -172,11 +172,11 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 return false;
 
             // Look up binding index.
-            var bindingId = new Guid(m_BindingId);
-            bindingIndex = action.bindings.IndexOf(x => x.id == bindingId);
+            var _bindingId = new Guid(m_BindingId);
+            bindingIndex = action.bindings.IndexOf(x => x.id == _bindingId);
             if (bindingIndex == -1)
             {
-                Debug.LogError($"Cannot find binding with ID '{bindingId}' on '{action}'", this);
+                Debug.LogError($"Cannot find binding with ID '{_bindingId}' on '{action}'", this);
                 return false;
             }
 
@@ -261,25 +261,16 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 m_RebindOperation?.Dispose();
                 m_RebindOperation = null;
 
-                action.actionMap.Enable();
-                m_UIInputActionMap?.Enable();
+                action.Enable();
+                //m_UIInputActionMap?.Enable();
             }
 
-            // An "InvalidOperationException: Cannot rebind action x while it is enabled" will
-            // be thrown if rebinding is attempted on an action that is enabled.
-            //
-            // On top of disabling the target action while rebinding, it is recommended to
-            // disable any actions (or action maps) that could interact with the rebinding UI
-            // or gameplay - it would be undesirable for rebinding to cause the player
-            // character to jump.
-            //
-            // In this example, we explicitly disable both the UI input action map and
-            // the action map containing the target action.
-            action.actionMap.Disable();
-            m_UIInputActionMap?.Disable();
+            action.Disable();
+            //m_UIInputActionMap?.Disable();
 
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
+                .WithCancelingThrough("<Keyboard>/escape")
                 .OnCancel(
                     operation =>
                     {

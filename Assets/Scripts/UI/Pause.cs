@@ -1,7 +1,7 @@
 using UnityEngine;
 public class Pause : MonoBehaviour
 {
-    bool isPaused = false;
+    [HideInInspector] public bool isPaused = false;
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject gamepadMenu;

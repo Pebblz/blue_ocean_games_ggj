@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private bool aiming;
     private float aimRotationSpeed = 0f;
     private float aimSmoothTime = 0.02f;
+    Player player;
     //Temp vars DELETE BEFORE COMMITING
     [SerializeField] GameObject TestDummy;
     void Start()
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
         equipment = GetComponent<PlayerEquipment>();
+        player = GetComponent<Player>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -168,12 +170,14 @@ public class PlayerMovement : MonoBehaviour
     #region Input System callbacks
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         // Read the 2D movement input
         moveInput = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         // Only jump if the button was pressed and the player is grounded
         EquipmentPart legs;
         equipment.equipment.TryGetValue(PART_LOCATION.LEGS, out legs);
@@ -203,12 +207,14 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         // Read the 2D movement input
         lookInput = context.ReadValue<Vector2>();
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         if (context.performed && isGrounded)
         {
             aiming = true;

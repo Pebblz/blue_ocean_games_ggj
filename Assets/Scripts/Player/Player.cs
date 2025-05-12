@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; set; }
-    private Pause pause;
+    [HideInInspector] public Pause pause;
     private void Awake() => Instance = this;
     private void Start()
     {
