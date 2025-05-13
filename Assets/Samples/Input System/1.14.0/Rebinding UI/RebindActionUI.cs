@@ -270,6 +270,9 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
+                .WithControlsExcluding("<Mouse>/leftButton")
+                .WithControlsExcluding("<Mouse>/rightButton")
+                .WithControlsExcluding("<Pointer>/position")
                 .WithCancelingThrough("<Keyboard>/escape")
                 .OnCancel(
                     operation =>
@@ -286,6 +289,15 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         if (m_RebindOverlay != null)
                             m_RebindOverlay.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
+
+
+                        if (CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
+                        {
+                            action.RemoveBindingOverride(bindingIndex);
+                            CleanUp();
+                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                        }
+
                         UpdateBindingDisplay();
                         CleanUp();
 
@@ -324,7 +336,32 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             m_RebindOperation.Start();
         }
-
+        private bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+            foreach (InputBinding binding in action.actionMap.bindings)
+            {
+                if (binding.action == newBinding.action)
+                {
+                    continue;
+                }
+                if (binding.effectivePath == newBinding.effectivePath)
+                {
+                    return true;
+                }
+            }
+            if (allCompositeParts)
+            {
+                for (int i = 1; i < bindingIndex; i++)
+                {
+                    if (action.bindings[i].effectivePath == newBinding.effectivePath)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         protected void OnEnable()
         {
             if (s_RebindActionUIs == null)
@@ -430,14 +467,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         // We want the label for the action name to update in edit mode, too, so
         // we kick that off from here.
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         protected void OnValidate()
         {
             UpdateActionLabel();
             UpdateBindingDisplay();
         }
-
-        #endif
+        private void Start()
+        {
+            UpdateActionLabel();
+            UpdateBindingDisplay();
+        }
+#endif
 
         private void UpdateActionLabel()
         {

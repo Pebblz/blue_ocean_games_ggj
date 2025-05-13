@@ -29,8 +29,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject model;              //The Player Model
     [SerializeField] private GameObject playerAimCore;      //The object the camera follows and rotates with
     [SerializeField] private Vector2 wantedVelocity;        //the wanted velocity when moving the mouse or joystick
-    [SerializeField] private float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
-    [SerializeField] private float sensitivityY;            //holds sensitivity on y axis of either controller or mouse depending on input
+    public float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
+    public float sensitivityY;            //holds sensitivity on y axis of either controller or mouse depending on input
     [SerializeField] private float viewClampYmin = -30;     //min clamp value for pitch rotation
     [SerializeField] private float viewClampYmax = 30;      //max clamp value for pitch rotation
     private PlayerEquipment equipment;
