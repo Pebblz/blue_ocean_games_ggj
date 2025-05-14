@@ -25,7 +25,7 @@ public class SettingsMenu : MonoBehaviour, SettingDataPersistence
     PlayerMovement player;
     private void Start()
     {
-        player = Player.Instance.gameObject.GetComponent<PlayerMovement>();
+        player = FindFirstObjectByType<PlayerMovement>();
         resolutions = Screen.resolutions;
         resolutionDropDown.ClearOptions();
         //data = FindObjectOfType<SettingsData>();
@@ -69,12 +69,18 @@ public class SettingsMenu : MonoBehaviour, SettingDataPersistence
     }
     public void UpdateSensitivityX(float newSens)
     {
-        player.sensitivityX = newSens;
+        if (player != null)
+        {
+            player.sensitivityX = newSens;
+        }
         sensX.text = newSens.ToString("f1");
     }
     public void UpdateSensitivityY(float newSens)
     {
-        player.sensitivityY = newSens;
+        if (player != null)
+        {
+            player.sensitivityY = newSens;
+        }
         sensY.text = newSens.ToString("f1");
     }
     public void ResetAllBindings()
