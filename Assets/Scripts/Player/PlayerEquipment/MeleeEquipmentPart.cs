@@ -21,6 +21,7 @@ public class MeleeEquipmentPart : SustainedEquipment
     {
         hitbox.GetComponent<MeshRenderer>().enabled = isVisible;
         hitbox.SetActive(false);
+        audioManager.stopPlayingTestAttackLoop();
     }
 
     public override void ActionStart()
@@ -28,6 +29,7 @@ public class MeleeEquipmentPart : SustainedEquipment
         hitbox.SetActive(true);        
         timer.reset();
         hitbox.GetComponent<MeshRenderer>().enabled = isVisible;
+        audioManager.playTestAttack();
         timer.startTimer();
     }
 }

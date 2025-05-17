@@ -18,6 +18,7 @@ public abstract class EquipmentPart
     protected GameObject partObject;
     public Dictionary<PLAYER_STATS, int> playerStatChanges;
     public Rigidbody body;
+    public AudioManager audioManager;
 
 
     public EquipmentPart()
