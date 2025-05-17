@@ -7,7 +7,6 @@ public class MeleeEquipmentPart : SustainedEquipment
     // DO NOT IMPLEMENT
     public GameObject hitbox; 
     public bool isVisible = true;
-    public Transform player;
     public override float sustainTime { get { return 0.2f; } }
 
     public MeleeEquipmentPart()

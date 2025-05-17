@@ -10,8 +10,9 @@ public class PlayerEquipment : MonoBehaviour
     public PlayerStats stats;
 
 
-
+    [Header("Weapon Hitboxes")]
     public GameObject meleeHitBox;
+    public GameObject flamethrowerHitbox;
 
 
     private void Awake()
@@ -66,13 +67,23 @@ public class PlayerEquipment : MonoBehaviour
         {
             
             var melee = part as MeleeEquipmentPart;
-            melee.player = stats.gameObject.transform;
             var hitbox = Instantiate(meleeHitBox);
             hitbox.name = $"{part.GetType().ToString()} Hitbox [{part.partLocation.ToString()}]";
             melee.hitbox = hitbox;
             hitbox.transform.parent = stats.gameObject.transform.GetChild(0).transform;
             hitbox.transform.localRotation = Quaternion.identity;
 
+        }
+
+        if(part is FlamethrowerEquipmentPart)
+        {
+            var flame = part as FlamethrowerEquipmentPart;
+            var hitbox = Instantiate(flamethrowerHitbox);
+            hitbox.name = $"{part.GetType().ToString()} Hitbox [{part.partLocation.ToString()}]";
+            hitbox.transform.position = stats.gameObject.transform.position + stats.gameObject.transform.forward; 
+            hitbox.transform.parent = stats.gameObject.transform.GetChild(0).transform;
+            hitbox.transform.localRotation = Quaternion.identity;
+            flame.hitbox = hitbox;
         }
         //TODO: parent equipment model to player
 

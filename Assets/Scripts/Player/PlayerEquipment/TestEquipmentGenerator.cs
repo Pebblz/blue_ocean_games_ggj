@@ -8,7 +8,8 @@ public class TestEquipmentGenerator : MonoBehaviour
     DoubleJump,
     HoverBoots,
     RandomEquipmentGen,
-    MeleeEquipTest}
+    MeleeEquipTest,
+    FlamethrowerTest}
 
     public Tests testToRun = Tests.DoubleJump;
     private void Start()
@@ -27,9 +28,24 @@ public class TestEquipmentGenerator : MonoBehaviour
             case Tests.MeleeEquipTest:
                 testMeleeEquipment();
                 break;
+            case Tests.FlamethrowerTest:
+                testFlamethrower();
+                break;
         }
     }
 
+
+    public void testFlamethrower()
+    {
+        PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
+        EquipmentPart part = new FlamethrowerEquipmentPart();
+        EquipmentPart part2 = new FlamethrowerEquipmentPart();
+        part.partLocation = PART_LOCATION.LEFT_ARM;
+        part2.partLocation = PART_LOCATION.RIGHT_ARM;
+        equipmentManager.equip(part.partLocation, part);
+        equipmentManager.equip(part2.partLocation, part2);
+
+    }
     public void testMeleeEquipment()
     {
         PlayerEquipment equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerEquipment>();
