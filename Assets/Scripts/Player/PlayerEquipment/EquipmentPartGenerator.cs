@@ -15,7 +15,8 @@ public static class EquipmentPartGenerator
         typeof(BuffingEquipmentPart),
         typeof(MeleeEquipmentPart),
         typeof(DoubleJumpEquipmentPart),
-        typeof(HoverBoots)
+        typeof(HoverBoots),
+        typeof(FlamethrowerEquipmentPart)
     };
 
 
