@@ -3,6 +3,13 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; set; }
+    [HideInInspector] public Pause pause;
+    private void Awake() => Instance = this;
+    private void Start()
+    {
+        pause = FindFirstObjectByType<Pause>();
+    }
     private GameObject interactibleOBJ;
     public void OnInteract(InputAction.CallbackContext context)
     {
@@ -13,6 +20,13 @@ public class Player : MonoBehaviour
                 interactibleOBJ.GetComponent<IInteractable>().OnInteract();
             }
         }  
+    }
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed && pause != null)
+        {
+            pause.PauseGame();
+        }
     }
     private void OnTriggerEnter(Collider col)
     {

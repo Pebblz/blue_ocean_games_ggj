@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,31 +23,30 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;          // Raw input from the player
     private Vector2 lookInput;          // Raw input from the player mouse
     private Vector3 moveDirection;      // Calculated movement direction relative to camera
+    private Vector2 velocity = Vector2.zero;//camera velocity
+    private Vector3 newCameraRot;          //new rotation for camera
 
     public GameObject model;              //The Player Model
     [SerializeField] private GameObject playerAimCore;      //The object the camera follows and rotates with
     [SerializeField] private Vector2 wantedVelocity;        //the wanted velocity when moving the mouse or joystick
-    [SerializeField] private float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
-    [SerializeField] private float sensitivityY;            //holds sensitivity on y axis of either controller or mouse depending on input
-    [SerializeField] private Vector2 velocity = Vector2.zero;//camera velocity
-    [SerializeField] private Vector3 newCameraRot;          //new rotation for camera
+    public float sensitivityX;            //holds sensitivity on x axis of either controller or mouse depending on input
+    public float sensitivityY;            //holds sensitivity on y axis of either controller or mouse depending on input
     [SerializeField] private float viewClampYmin = -30;     //min clamp value for pitch rotation
     [SerializeField] private float viewClampYmax = 30;      //max clamp value for pitch rotation
-    //Temp vars DELETE BEFORE COMMITING
-    [SerializeField] GameObject TestDummy;
-    private Pause pause;
     private PlayerEquipment equipment;
-    [SerializeField] private bool aiming;
+    private bool aiming;
     private float aimRotationSpeed = 0f;
     private float aimSmoothTime = 0.02f;
-
+    Player player;
+    //Temp vars DELETE BEFORE COMMITING
+    [SerializeField] GameObject TestDummy;
     void Start()
     {
         isDoubleJump = false;
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
-        pause = FindFirstObjectByType<Pause>();
         equipment = GetComponent<PlayerEquipment>();
+        player = GetComponent<Player>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -57,13 +57,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-    private void LateUpdate()
-    {
-        ////rotate the cameralook at with the cameras new rotation
-        //playerAimCore.transform.localRotation = Quaternion.Euler(newCameraRot);
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -139,7 +132,8 @@ public class PlayerMovement : MonoBehaviour
             // Smoothly rotate towards the movement direction
             model.transform.rotation = Quaternion.Lerp(model.transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
 
-        } else if (moveDirection != Vector3.zero && aiming)
+        } 
+        else if (moveDirection != Vector3.zero && aiming)
         {
             // Calculate target velocity
             Vector3 targetVelocity = moveDirection * moveSpeed;
@@ -152,15 +146,14 @@ public class PlayerMovement : MonoBehaviour
 
             // angle for player y rotation
             float rotationAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, newCameraRot.y, ref aimRotationSpeed, aimSmoothTime);
-
-            // rotate player to follow camera only on the y
+            //// rotate player to follow camera only on the y
             model.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
 
-        } else if (moveDirection == Vector3.zero && aiming)
+        } 
+        else if (moveDirection == Vector3.zero && aiming)
         {
             // angle for player y rotation
             float rotationAngle = Mathf.SmoothDampAngle(model.transform.eulerAngles.y, newCameraRot.y, ref aimRotationSpeed, aimSmoothTime);
-
             // rotate player to follow camera only on the y
             model.transform.rotation = Quaternion.Euler(0, rotationAngle, 0);
 
@@ -177,12 +170,14 @@ public class PlayerMovement : MonoBehaviour
     #region Input System callbacks
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         // Read the 2D movement input
         moveInput = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         // Only jump if the button was pressed and the player is grounded
         EquipmentPart legs;
         equipment.equipment.TryGetValue(PART_LOCATION.LEGS, out legs);
@@ -210,22 +205,16 @@ public class PlayerMovement : MonoBehaviour
             hoverboots.ActionEnd();
         }
     }
-    public void OnPause(InputAction.CallbackContext context)
-    {
-        if (context.performed && pause != null)
-        {
-            pause.PauseGame();
-        }
-    }
-
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         // Read the 2D movement input
         lookInput = context.ReadValue<Vector2>();
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
+        if (player.pause.isPaused) return;
         if (context.performed && isGrounded)
         {
             aiming = true;

@@ -1,13 +1,13 @@
-using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
+using UnityEngine;
 
-public class FlyingEnemy : MonoBehaviour, IEnemy
+public class UFOEnemy : MonoBehaviour, IEnemy
 {
+    Transform player;
+
+
     [Header("Target Settings")]
     [SerializeField] private float attackRange = 15f;
-    [SerializeField] private float minAttackRange = 5f;
-    [SerializeField] private float kamikazeRange = 8f;
 
     [Header("Combat Settings")]
     [SerializeField] private GameObject projectilePrefab;
@@ -15,8 +15,6 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float projectileSpeed = 20f;
     [SerializeField] private int damage = 1;
-    [SerializeField] private int kamikazeDamage = 3;
-    [SerializeField] private GameObject explosionEffect;
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 8f;
@@ -25,24 +23,26 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
     [SerializeField] private float hoverAmplitude = 0.5f;
     [SerializeField] private float hoverFrequency = 1f;
 
-    private Transform player;
     private bool canShoot = true;
     private float distanceToPlayer;
-    private bool isKamikazeMode = false;
     private float hoverOffset;
 
     private void Start()
     {
-
+        player = Player.Instance.GetComponent<Transform>();
         // Random start phase for hover
         hoverOffset = Random.Range(0f, 2f * Mathf.PI);
         // Set initial height to hoverHeight
         transform.position = new Vector3(transform.position.x, hoverHeight, transform.position.z);
     }
-
+    
+    public void SetPlayer(Transform t)
+    {
+        player = t;
+    }
     private void Update()
     {
-        if (player == null || isKamikazeMode) return;
+        if (player == null) return;
 
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -50,36 +50,24 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
         float newY = hoverHeight + Mathf.Sin((Time.time + hoverOffset) * hoverFrequency) * hoverAmplitude;
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
-        // Check if we should enter kamikaze mode
-        if (!isKamikazeMode && distanceToPlayer <= kamikazeRange)
+        // Normal combat behavior
+        if (distanceToPlayer <= attackRange)
         {
-            isKamikazeMode = true;
-            StartCoroutine(KamikazeAttack());
-        }
-        else if (!isKamikazeMode)
-        {
-            // Normal combat behavior
-            if (distanceToPlayer <= attackRange && distanceToPlayer >= minAttackRange)
-            {
-                // Stop moving and face the player
-                FaceTarget();
+            // Stop moving and face the player
+            FaceTarget();
 
-                // Shoot if cooldown is ready
-                if (canShoot)
-                {
-                    StartCoroutine(Shoot());
-                }
-            }
-            else
+            // Shoot if cooldown is ready
+            if (canShoot)
             {
-                // Move towards player if too far
-                MoveTowardsPlayer();
+                StartCoroutine(Shoot());
             }
         }
-    }
-    public void SetPlayer(Transform p)
-    {
-        player = p;
+        else
+        {
+            // Move towards player if too far
+            MoveTowardsPlayer();
+        }
+
     }
     private void MoveTowardsPlayer()
     {
@@ -119,42 +107,5 @@ public class FlyingEnemy : MonoBehaviour, IEnemy
 
         yield return new WaitForSeconds(fireRate);
         canShoot = true;
-    }
-
-    private IEnumerator KamikazeAttack()
-    {
-        // Increase speed during kamikaze
-        moveSpeed *= 2f;
-
-        while (true)
-        {
-            // Move directly towards player
-            Vector3 direction = (player.position - transform.position).normalized;
-            transform.position += direction * moveSpeed * Time.deltaTime;
-            FaceTarget();
-            yield return null;
-        }
-    }
-    private void OnTriggerEnter(Collider col)
-    {
-        if (isKamikazeMode && col.gameObject.CompareTag("Player"))
-        {
-            Explode(col.GetComponent<PlayerStats>());
-        }
-    }
-    private void Explode(PlayerStats health)
-    {
-        // Spawn explosion effect
-        if (explosionEffect != null)
-        {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        }
-        // Check if the hit object has a health component
-        if (health != null)
-        {
-            health.DamagePlayer(kamikazeDamage);
-        }
-        // Destroy the enemy
-        Destroy(gameObject);
     }
 }

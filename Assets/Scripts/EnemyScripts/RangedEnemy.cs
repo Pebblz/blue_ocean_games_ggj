@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class RangedEnemy : MonoBehaviour
+public class RangedEnemy : MonoBehaviour, IEnemy
 {
     [Header("Target Settings")]
     [SerializeField] private float attackRange = 15f;
@@ -27,10 +27,6 @@ public class RangedEnemy : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        }
     }
 
     private void Update()
@@ -106,5 +102,10 @@ public class RangedEnemy : MonoBehaviour
         // Wait for fire rate cooldown
         yield return new WaitForSeconds(fireRate);
         canShoot = true;
+    }
+
+    public void SetPlayer(Transform t)
+    {
+        player = t;
     }
 } 
