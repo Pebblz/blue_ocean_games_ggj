@@ -107,7 +107,7 @@ public class PlayerStats : MonoBehaviour
     }
     #endregion
 
-
+    #region STAT_MANIPULATION
     public void addStat(PLAYER_STATS stat, int amount)
     {
         switch (stat)
@@ -159,4 +159,13 @@ public class PlayerStats : MonoBehaviour
         }
 
     }
+    #endregion
+
+    #region PLAYER_ATTACK_DAMAGE
+    public int getPlayerDamage()
+    {
+        return this.strength;
+    }
+    
+    #endregion
 }

@@ -4261,7 +4261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4ed1753b8ac39429e73446c79235b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testToRun: 0
+  testToRun: 4
 --- !u!4 &851774295
 Transform:
   m_ObjectHideFlags: 0
@@ -4711,7 +4711,7 @@ Transform:
   m_GameObject: {fileID: 967851033}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.799058, y: 1.37, z: -5.6234703}
+  m_LocalPosition: {x: 7.799058, y: 1.37, z: -5.68}
   m_LocalScale: {x: 6, y: 1, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5145,18 +5145,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesToSpawn:
-  - spawnCost: 1
-    difficulty: 0
+  - name: 
+    spawnCost: 1
+    phase: 
     enemyOBJ: {fileID: 2730340130512638435, guid: 9d5417ffb68b8cf42b699a833142dc47, type: 3}
-  - spawnCost: 2
-    difficulty: 2
+    spawnInGroups: 0
+    groupSizeMin: 2
+    groupSizeMax: 3
+    numberToSpawn: 0
+  - name: 
+    spawnCost: 2
+    phase: 
     enemyOBJ: {fileID: 3158261989291492224, guid: 9da7c761de54dc84e9fdb12df45ccfbf, type: 3}
-  - spawnCost: 1
-    difficulty: 0
+    spawnInGroups: 0
+    groupSizeMin: 2
+    groupSizeMax: 3
+    numberToSpawn: 0
+  - name: 
+    spawnCost: 1
+    phase: 
     enemyOBJ: {fileID: 1785229563834560674, guid: b23ba6e2dc440cf4db48db072da8ee6f, type: 3}
-  - spawnCost: 1
-    difficulty: 1
+    spawnInGroups: 0
+    groupSizeMin: 2
+    groupSizeMax: 3
+    numberToSpawn: 0
+  - name: 
+    spawnCost: 1
+    phase: 
     enemyOBJ: {fileID: 6786379853170172531, guid: b6c74b5b1c1142e4abff4fb00f2d4bb0, type: 3}
+    spawnInGroups: 0
+    groupSizeMin: 2
+    groupSizeMax: 3
+    numberToSpawn: 0
   spawnFrequency: 15
   spawnCount: 5
   spawnBox: {fileID: 967851033}
@@ -7020,7 +7040,6 @@ GameObject:
   - component: {fileID: 1308239277}
   - component: {fileID: 1308239276}
   - component: {fileID: 1308239275}
-  - component: {fileID: 1308239274}
   - component: {fileID: 1308239273}
   - component: {fileID: 1308239272}
   m_Layer: 0
@@ -7085,20 +7104,6 @@ MonoBehaviour:
     Controllers: []
   PlayerIndex: -1
   AutoEnableInputs: 1
---- !u!114 &1308239274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308239270}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e15d4e54a0b7d4d933279b9805f0dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 6
-  iFrameTime: 0.1
 --- !u!114 &1308239275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7131,6 +7136,7 @@ MonoBehaviour:
   viewClampYmin: -30
   viewClampYmax: 30
   TestDummy: {fileID: 0}
+  aiming: 0
 --- !u!23 &1308239276
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12393,8 +12399,8 @@ GameObject:
   - component: {fileID: 1378629807}
   - component: {fileID: 1378629814}
   - component: {fileID: 1378629813}
-  - component: {fileID: 1378629812}
   - component: {fileID: 1378629811}
+  - component: {fileID: 1378629817}
   - component: {fileID: 1378629810}
   - component: {fileID: 1378629809}
   - component: {fileID: 1378629808}
@@ -12548,7 +12554,19 @@ MonoBehaviour:
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1378629817}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
@@ -12667,6 +12685,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c85e6c10-8988-44e6-8b84-fd189debd3e0
     m_ActionName: 'Player/Pause[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 486bb0d1-62c8-4c47-87ba-800f9c47b999
+    m_ActionName: 'Player/Aim[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -12699,20 +12721,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &1378629812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1378629806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e15d4e54a0b7d4d933279b9805f0dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 6
-  iFrameTime: 0.1
 --- !u!114 &1378629813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12745,6 +12753,7 @@ MonoBehaviour:
   viewClampYmin: -30
   viewClampYmax: 30
   TestDummy: {fileID: 1104012893}
+  aiming: 0
 --- !u!114 &1378629814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12770,6 +12779,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  meleeHitBox: {fileID: 0}
+  flamethrowerHitbox: {fileID: 4956955411933030747, guid: 7d5e4613dc696af44b4af561454a8994, type: 3}
 --- !u!114 &1378629816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12787,6 +12798,19 @@ MonoBehaviour:
   stamina: 6
   strength: 6
   iFrameTime: 0.1
+--- !u!114 &1378629817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378629806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c216b9e27fe731d43b6f994f9532c84b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeAttackingEquip: 1
 --- !u!1 &1384371419
 GameObject:
   m_ObjectHideFlags: 0
@@ -13584,6 +13608,7 @@ MonoBehaviour:
   settingsMenu: {fileID: 1051766261}
   gamepadMenu: {fileID: 1942792809}
   keybindsMenu: {fileID: 901044066}
+  loseScreen: {fileID: 0}
 --- !u!223 &1544579842
 Canvas:
   m_ObjectHideFlags: 0
@@ -17048,67 +17073,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146104263}
   m_CullTransparentMesh: 1
---- !u!1001 &8373102113685705833
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4473902682196617763, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_Name
-      value: Timer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4473902682196617763, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_TagString
-      value: Timer
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5639018499026675855, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3e66f49fa83a23c46986e64046c6bc6c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -17133,4 +17097,3 @@ SceneRoots:
   - {fileID: 1067385171}
   - {fileID: 651678194}
   - {fileID: 851774295}
-  - {fileID: 8373102113685705833}
