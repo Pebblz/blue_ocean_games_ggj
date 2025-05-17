@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerEquipment : MonoBehaviour
 {
@@ -49,12 +50,12 @@ public class PlayerEquipment : MonoBehaviour
         {
             var g = new GameObject();
             g = Instantiate(g);
-            g.name = part.GetType().ToString() + " Timer";
+            g.name = $"{part.GetType().ToString()} Timer [{part.partLocation.ToString()}]" ;
             g.AddComponent<Timer>();
             var timer = g.GetComponent<Timer>();
             var sus = part as SustainedEquipment;
             timer.onTimedOut = sus.ActionEnd;
-            timer.timer = sus.sustainTime;
+            timer.setDuration(sus.sustainTime);
             timer.oneShot = sus.oneShot;
             sus.timer = timer;
             g.transform.parent = stats.gameObject.transform;
@@ -63,12 +64,15 @@ public class PlayerEquipment : MonoBehaviour
 
         if(part is MeleeEquipmentPart)
         {
+            
             var melee = part as MeleeEquipmentPart;
+            melee.player = stats.gameObject.transform;
             var hitbox = Instantiate(meleeHitBox);
-            hitbox.name = part.GetType().ToString() + " Hitbox";
+            hitbox.name = $"{part.GetType().ToString()} Hitbox [{part.partLocation.ToString()}]";
             melee.hitbox = hitbox;
-            hitbox.transform.parent = stats.gameObject.transform;
-            hitbox.transform.position += Vector3.forward;
+            hitbox.transform.parent = stats.gameObject.transform.GetChild(0).transform;
+            hitbox.transform.localRotation = Quaternion.identity;
+
         }
         //TODO: parent equipment model to player
 

@@ -1,4 +1,3 @@
-
 using System.Collections;
 using UnityEngine;
 
@@ -7,7 +6,8 @@ public class MeleeEquipmentPart : SustainedEquipment
 
     // DO NOT IMPLEMENT
     public GameObject hitbox; 
-    public bool isVisible = false;
+    public bool isVisible = true;
+    public Transform player;
     public override float sustainTime { get { return 0.2f; } }
 
     public MeleeEquipmentPart()
@@ -20,14 +20,14 @@ public class MeleeEquipmentPart : SustainedEquipment
 
     public override void ActionEnd()
     {
-        hitbox.SetActive(true);
         hitbox.GetComponent<MeshRenderer>().enabled = isVisible;
+        hitbox.SetActive(false);
     }
 
     public override void ActionStart()
     {
+        hitbox.SetActive(true);        
         timer.reset();
-        hitbox.SetActive(true);
         hitbox.GetComponent<MeshRenderer>().enabled = isVisible;
         timer.startTimer();
     }
