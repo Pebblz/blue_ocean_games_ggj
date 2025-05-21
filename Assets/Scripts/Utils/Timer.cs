@@ -4,7 +4,8 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     public Action onTimedOut;
-    public float timer = 3f;
+    public float timer;
+
     public bool oneShot = true;
     private bool start_timer = false;
     private float init_timer;
@@ -30,6 +31,12 @@ public class Timer : MonoBehaviour
             }
         }
        
+    }
+
+    public void setDuration(float value)
+    {
+        this.timer = value;
+        this.init_timer = value;
     }
 
     public void startTimer()

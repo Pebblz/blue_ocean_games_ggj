@@ -9,7 +9,6 @@ public enum PART_LOCATION
     LEFT_ARM,
     RIGHT_ARM,
     TORSO,
-    WAIST,
     LEGS
 }
 public abstract class EquipmentPart 
@@ -19,6 +18,7 @@ public abstract class EquipmentPart
     protected GameObject partObject;
     public Dictionary<PLAYER_STATS, int> playerStatChanges;
     public Rigidbody body;
+    public AudioManager audioManager;
 
 
     public EquipmentPart()
