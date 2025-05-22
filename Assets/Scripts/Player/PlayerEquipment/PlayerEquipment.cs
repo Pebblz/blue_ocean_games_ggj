@@ -8,7 +8,7 @@ public class PlayerEquipment : MonoBehaviour
 {
     public Dictionary<PART_LOCATION, EquipmentPart> equipment;
     public PlayerStats stats;
-
+    private AudioManager audioManager;
 
     [Header("Weapon Hitboxes")]
     public GameObject meleeHitBox;
@@ -24,6 +24,7 @@ public class PlayerEquipment : MonoBehaviour
         equipment.Add(PART_LOCATION.TORSO, new EmptyEquipmentPart());
         equipment.Add(PART_LOCATION.LEGS, new EmptyEquipmentPart());
         stats = GetComponent<PlayerStats>();
+        audioManager =  GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
 
@@ -42,6 +43,7 @@ public class PlayerEquipment : MonoBehaviour
             
         part.movement = stats.GetComponent<PlayerMovement>();
         part.body = stats.GetComponent<Rigidbody>();
+        part.audioManager = audioManager;
         foreach( KeyValuePair<PLAYER_STATS, int> kvp in part.playerStatChanges){
             stats.addStat(kvp.Key, kvp.Value);
         }

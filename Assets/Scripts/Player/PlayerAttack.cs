@@ -13,12 +13,19 @@ public class PlayerAttack : MonoBehaviour
         equip = GetComponent<PlayerEquipment>();
     }
 
+    public void OnWeaponSwitch(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            activeAttackingEquip = (activeAttackingEquip == PART_LOCATION.LEFT_ARM)? PART_LOCATION.RIGHT_ARM: PART_LOCATION.LEFT_ARM;
+        }
+    }
+
     public void OnAttack(InputAction.CallbackContext context)
     {
         EquipmentPart part;
         equip.equipment.TryGetValue(activeAttackingEquip, out part);
 
-        Debug.Log(context.performed);
         if (context.performed)
         {
            

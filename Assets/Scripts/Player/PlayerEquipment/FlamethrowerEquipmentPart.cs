@@ -21,6 +21,7 @@ public class FlamethrowerEquipmentPart : SustainedEquipment
     public override void ActionEnd()
     {
         hitbox.GetComponentInChildren<MeshRenderer>().enabled = isVisible;
+        audioManager.stopPlayingTestAttackLoop();
         flames.Stop();
         hitbox.SetActive(false);
     }
@@ -32,6 +33,7 @@ public class FlamethrowerEquipmentPart : SustainedEquipment
         {
             flames = hitbox.GetComponentInChildren<ParticleSystem>();
         }
+        audioManager.playTestAttackLooped();
         timer.reset();
         flames.Play();
         hitbox.GetComponentInChildren<MeshRenderer>().enabled = isVisible;
