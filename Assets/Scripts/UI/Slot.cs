@@ -15,8 +15,8 @@ public class Slot : MonoBehaviour
     {
         slotImage = GetComponent<Image>();
         slotImage.sprite = image;
-        isEmpty = false;
-        isInteractable = false;
+        isEmpty = true;
+        isInteractable = true;
         part = null;
     }
 
@@ -70,7 +70,7 @@ public class Slot : MonoBehaviour
         this.part = part;
     }
 
-    public EquipmentPart GetEqipmentPart()
+    public EquipmentPart GetEquipmentPart()
     {
         return part;
     }

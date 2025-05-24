@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8282136929484841999}
   - component: {fileID: 3904821714173830528}
   m_Layer: 5
-  m_Name: Inventory Item
+  m_Name: HoverBoots Inventory Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

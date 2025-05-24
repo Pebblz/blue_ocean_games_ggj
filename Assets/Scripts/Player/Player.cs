@@ -28,6 +28,15 @@ public class Player : MonoBehaviour
             pause.PauseGame();
         }
     }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (context.performed && pause != null)
+        {
+            pause.ToggleInventory();
+        }
+    }
+
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Interactible")
