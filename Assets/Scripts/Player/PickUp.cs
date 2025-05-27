@@ -12,7 +12,8 @@ public class PickUp : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        Inventory inventory = (Inventory)FindAnyObjectByType(typeof(Inventory), FindObjectsInactive.Include);
+        Inventory inventory = GameObject.FindGameObjectWithTag("UI").GetComponent<Pause>().inventory.GetComponent<Inventory>();
+
         inventory.AddItemToInventory(part);
     }
 

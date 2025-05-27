@@ -54,7 +54,9 @@ MonoBehaviour:
   isInteractable: 0
   isEmpty: 0
   slotImage: {fileID: 0}
+  image: {fileID: 0}
   slotIndex: 0
+  bodyLocation: 4
 --- !u!222 &6103966220766833445
 CanvasRenderer:
   m_ObjectHideFlags: 0

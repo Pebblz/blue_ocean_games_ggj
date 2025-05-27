@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 58610150}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -499,7 +499,7 @@ MonoBehaviour:
   gamepadMenu: {fileID: 1243678261}
   keybindsMenu: {fileID: 1919738950}
   loseScreen: {fileID: 0}
-  inventory: {fileID: 1577486345}
+  inventory: {fileID: 1577486349}
 --- !u!223 &58610154
 Canvas:
   m_ObjectHideFlags: 0
@@ -1178,6 +1178,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 552400738}
     m_Modifications:
+    - target: {fileID: 1600788113795092201, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
+      propertyPath: bodyLocation
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3665094880635207271, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
       propertyPath: m_Name
       value: Character Slot
@@ -4080,6 +4084,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 249826846}
     m_Modifications:
+    - target: {fileID: 1600788113795092201, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
+      propertyPath: bodyLocation
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3665094880635207271, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
       propertyPath: m_Name
       value: Character Slot
@@ -8522,6 +8530,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 249826846}
     m_Modifications:
+    - target: {fileID: 1600788113795092201, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
+      propertyPath: bodyLocation
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3665094880635207271, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
       propertyPath: m_Name
       value: Character Slot (2)
@@ -9294,6 +9306,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 249826846}
     m_Modifications:
+    - target: {fileID: 1600788113795092201, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
+      propertyPath: bodyLocation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3665094880635207271, guid: 46796bb29aa25314a87662af1874a52b, type: 3}
       propertyPath: m_Name
       value: Character Slot (1)
