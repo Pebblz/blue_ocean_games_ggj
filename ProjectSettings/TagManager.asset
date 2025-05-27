@@ -9,6 +9,7 @@ TagManager:
   - Timer
   - AudioManager
   - Inventory
+  - UI
   layers:
   - Default
   - TransparentFX

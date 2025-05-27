@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,10 @@ public class Player : MonoBehaviour
             if (interactibleOBJ.GetComponent<IInteractable>().CanBeInteractedWith())
             {
                 interactibleOBJ.GetComponent<IInteractable>().OnInteract();
+                if (interactibleOBJ.GetComponent<PickUp>())
+                {
+                    //Destroy(interactibleOBJ);
+                }
             }
         }  
     }

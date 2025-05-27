@@ -8,7 +8,7 @@ public class EmptyEquipmentPart : EquipmentPart
     // DO NOT IMPLEMENT
     public override void Action()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
 }

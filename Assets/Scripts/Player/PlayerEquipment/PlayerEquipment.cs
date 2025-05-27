@@ -27,6 +27,12 @@ public class PlayerEquipment : MonoBehaviour
         audioManager =  GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
+    public void Update()
+    {
+        foreach (KeyValuePair<PART_LOCATION, EquipmentPart> kvp in equipment)
+            Debug.Log("Key = {0} + Value = {1}" + kvp.Key + kvp.Value);
+    }
+
 
 
     public void equip(PART_LOCATION location, EquipmentPart part)
