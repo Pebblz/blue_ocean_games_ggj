@@ -23,7 +23,6 @@ public class Inventory : MonoBehaviour
             characterSlots[i].setEquipmentPart(new EmptyEquipmentPart());
         }
 
-        gameObject.SetActive(false);
     }
 
     // Update is called once per frame

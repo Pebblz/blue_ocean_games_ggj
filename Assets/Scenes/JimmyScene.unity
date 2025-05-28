@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 58610152}
   - component: {fileID: 58610151}
   - component: {fileID: 58610150}
+  - component: {fileID: 58610156}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: UI
@@ -499,7 +500,7 @@ MonoBehaviour:
   gamepadMenu: {fileID: 1243678261}
   keybindsMenu: {fileID: 1919738950}
   loseScreen: {fileID: 0}
-  inventory: {fileID: 1577486349}
+  inventory: {fileID: 1577486345}
 --- !u!223 &58610154
 Canvas:
   m_ObjectHideFlags: 0
@@ -549,6 +550,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &58610156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58610149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911b74933f8f3914a923bb549f160966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySlots:
+  - {fileID: 2082684447}
+  - {fileID: 1288436308}
+  - {fileID: 602101780}
+  - {fileID: 1988378532}
+  - {fileID: 1148211162}
+  - {fileID: 2055808618}
+  - {fileID: 1508663723}
+  - {fileID: 458463321}
+  - {fileID: 1247642520}
+  - {fileID: 1989090528}
+  - {fileID: 1291976608}
+  - {fileID: 1887538518}
+  characterSlots:
+  - {fileID: 1273046651}
+  - {fileID: 1439512263}
+  - {fileID: 1499917132}
+  - {fileID: 1835747608}
+  - {fileID: 444599952}
 --- !u!1 &76375590
 GameObject:
   m_ObjectHideFlags: 0
@@ -10392,7 +10424,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577486345}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 911b74933f8f3914a923bb549f160966, type: 3}
   m_Name: 
@@ -11829,6 +11861,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 296b7635-5190-4c14-b80e-f40b76d84f54
     m_ActionName: 'Player/Inventory[/Keyboard/i]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1668436978}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: OnWeaponSwitch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a592736f-d173-4286-b5ce-626e34567450
+    m_ActionName: 'Player/WeaponSwitch[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

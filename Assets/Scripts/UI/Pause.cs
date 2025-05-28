@@ -8,10 +8,9 @@ public class Pause : MonoBehaviour
     [SerializeField] GameObject gamepadMenu;
     [SerializeField] GameObject keybindsMenu;
     [SerializeField] GameObject loseScreen;
-    public Inventory inventory;
+    public GameObject inventory;
     private void Start()
     {
-        inventory = transform.GetComponentInChildren<Inventory>();
         DisableEverything();
         DisableCursor();
     }
@@ -20,7 +19,7 @@ public class Pause : MonoBehaviour
         if (inventoryOpen)
         {
             inventoryOpen = false;
-            inventory.gameObject.SetActive(false);
+            inventory.SetActive(false);
         }
         if(!isPaused)
         {
@@ -47,14 +46,14 @@ public class Pause : MonoBehaviour
         if(!inventoryOpen)
         {
             inventoryOpen = true;
-            inventory.gameObject.SetActive(true);
+            inventory.SetActive(true);
             Time.timeScale = 0;
             EnableCursor();
         }
         else
         {
             inventoryOpen = false;
-            inventory.gameObject.SetActive(false);
+            inventory.SetActive(false);
             Time.timeScale = 1;
             DisableCursor();
         }
@@ -106,6 +105,7 @@ public class Pause : MonoBehaviour
         settingsMenu.SetActive(false);
         keybindsMenu.SetActive(false);
         gamepadMenu.SetActive(false);
+        inventory.SetActive(false);
     }
     public void LoseGame()
     {

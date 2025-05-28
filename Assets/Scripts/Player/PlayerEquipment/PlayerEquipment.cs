@@ -29,8 +29,7 @@ public class PlayerEquipment : MonoBehaviour
 
     public void Update()
     {
-        foreach (KeyValuePair<PART_LOCATION, EquipmentPart> kvp in equipment)
-            Debug.Log("Key = {0} + Value = {1}" + kvp.Key + kvp.Value);
+        
     }
 
 

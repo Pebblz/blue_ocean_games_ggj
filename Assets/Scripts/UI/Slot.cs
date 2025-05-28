@@ -15,9 +15,9 @@ public class Slot : MonoBehaviour
     {
         slotImage = GetComponent<Image>();
         slotImage.sprite = image;
-        isEmpty = true;
-        isInteractable = true;
-        part = null;
+        //isEmpty = true;
+        //isInteractable = true;
+        //part = null;
     }
 
     // Update is called once per frame
