@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;        // Speed of player movement
+    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float moveSpeed;        // Speed of player movement
     [SerializeField] private float jumpForce = 5f;        // Force applied when jumping
     [SerializeField] private float groundCheckDistance = 0.2f;  // Distance to check for ground
     [SerializeField] private LayerMask groundLayer;       // Layer mask for ground detection
@@ -40,13 +42,20 @@ public class PlayerMovement : MonoBehaviour
     Player player;
     //Temp vars DELETE BEFORE COMMITING
     [SerializeField] GameObject TestDummy;
+    public Animator anim;
+    private bool isRunning;
+    private bool isJumping;
+    private float jumpTimer = 0.2f;
+
     void Start()
     {
         isDoubleJump = false;
+        moveSpeed = walkSpeed;
         // Get the Rigidbody component
         rb = GetComponent<Rigidbody>();
         equipment = GetComponent<PlayerEquipment>();
         player = GetComponent<Player>();
+        anim = GetComponent<Animator>();
         // If no camera transform is assigned, try to find the main camera
         if (cameraTransform == null)
         {
@@ -62,10 +71,46 @@ public class PlayerMovement : MonoBehaviour
     {
         // Check if the player is grounded using a raycast
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
+
         if (isGrounded && isDoubleJump)
         {
             isDoubleJump = false;
+        }  
+        if (isJumping)
+        {
+
+            jumpTimer -= Time.deltaTime;
+
+            if (jumpTimer <= 0f)
+            {
+                if (isGrounded)
+                {
+                    jumpTimer = 0.2f;
+                    isJumping = false;
+                    anim.SetBool("isJumping", false);
+                }
+            }
         }
+
+        if (moveInput.magnitude >= 0.1f && isGrounded)
+        {
+            if (isRunning)
+            {
+                moveSpeed = runSpeed;
+                anim.SetFloat("MoveVal", 1f, 0.1f, Time.deltaTime);
+            }
+            else
+            {
+                moveSpeed = walkSpeed;
+                anim.SetFloat("MoveVal", 0.5f, 0.1f, Time.deltaTime);
+            }
+        }
+        else
+        {
+            moveSpeed = walkSpeed;
+            anim.SetFloat("MoveVal", 0f, 0.1f, Time.deltaTime);
+        }
+
         wantedVelocity = lookInput * new Vector2(sensitivityX, sensitivityY);
 
         velocity = new Vector2(wantedVelocity.x, wantedVelocity.y);
@@ -175,6 +220,17 @@ public class PlayerMovement : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
     }
 
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isRunning = true;
+        } else if (context.canceled)
+        {
+            isRunning = false;
+        }
+    }
+
     public void OnJump(InputAction.CallbackContext context)
     {
         if (player.pause.isPaused) return;
@@ -183,17 +239,23 @@ public class PlayerMovement : MonoBehaviour
         equipment.equipment.TryGetValue(PART_LOCATION.LEGS, out legs);
         if (context.performed && isGrounded)
         {
+            isJumping = true;
+            anim.SetBool("isJumping", true);
             aiming = false;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         } else if( context.performed && !isDoubleJump && legs is DoubleJumpEquipmentPart)
         {
             Debug.Log("Type of Legs: " + legs.GetType());
             isGrounded = false;
+            isJumping = false;
+            anim.SetBool("isJumping", false);
             isDoubleJump = true;
+            anim.SetBool("isJumping", true);
             legs.Action();
         } else if( context.performed && !isDoubleJump && legs is HoverBoots)
         {
             Debug.Log("Type of Legs: " + legs.GetType());
+            anim.SetBool("isJumping", true);
             isGrounded = false;
             isDoubleJump = true;
 
