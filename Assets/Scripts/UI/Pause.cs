@@ -2,11 +2,13 @@ using UnityEngine;
 public class Pause : MonoBehaviour
 {
     [HideInInspector] public bool isPaused = false;
+    [HideInInspector] public bool inventoryOpen = false;
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject gamepadMenu;
     [SerializeField] GameObject keybindsMenu;
     [SerializeField] GameObject loseScreen;
+    public GameObject inventory;
     private void Start()
     {
         DisableEverything();
@@ -14,6 +16,11 @@ public class Pause : MonoBehaviour
     }
     public void PauseGame()
     {
+        if (inventoryOpen)
+        {
+            inventoryOpen = false;
+            inventory.SetActive(false);
+        }
         if(!isPaused)
         {
             isPaused = true;
@@ -25,6 +32,28 @@ public class Pause : MonoBehaviour
         {
             isPaused = false;
             DisableEverything();
+            Time.timeScale = 1;
+            DisableCursor();
+        }
+    }
+    public void ToggleInventory()
+    {
+        if(isPaused)
+        {
+            isPaused = false;
+            DisableEverything();
+        }
+        if(!inventoryOpen)
+        {
+            inventoryOpen = true;
+            inventory.SetActive(true);
+            Time.timeScale = 0;
+            EnableCursor();
+        }
+        else
+        {
+            inventoryOpen = false;
+            inventory.SetActive(false);
             Time.timeScale = 1;
             DisableCursor();
         }
@@ -76,6 +105,7 @@ public class Pause : MonoBehaviour
         settingsMenu.SetActive(false);
         keybindsMenu.SetActive(false);
         gamepadMenu.SetActive(false);
+        inventory.SetActive(false);
     }
     public void LoseGame()
     {

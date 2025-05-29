@@ -15,9 +15,9 @@ public class Slot : MonoBehaviour
     {
         slotImage = GetComponent<Image>();
         slotImage.sprite = image;
-        isEmpty = false;
-        isInteractable = false;
-        part = null;
+        //isEmpty = true;
+        //isInteractable = true;
+        //part = null;
     }
 
     // Update is called once per frame
@@ -70,7 +70,7 @@ public class Slot : MonoBehaviour
         this.part = part;
     }
 
-    public EquipmentPart GetEqipmentPart()
+    public EquipmentPart GetEquipmentPart()
     {
         return part;
     }

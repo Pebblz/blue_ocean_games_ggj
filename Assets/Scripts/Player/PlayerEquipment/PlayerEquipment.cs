@@ -27,6 +27,11 @@ public class PlayerEquipment : MonoBehaviour
         audioManager =  GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
+    public void Update()
+    {
+        
+    }
+
 
 
     public void equip(PART_LOCATION location, EquipmentPart part)

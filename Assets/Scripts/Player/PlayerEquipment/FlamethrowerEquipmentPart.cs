@@ -13,9 +13,8 @@ public class FlamethrowerEquipmentPart : SustainedEquipment
     public FlamethrowerEquipmentPart()
     {
         // position of arms in the PART_LOCATION enum
-        int location = Random.Range(1, 3);
-        partLocation = (PART_LOCATION)location;
-
+        //int location = Random.Range(1, 3);
+        //partLocation = (PART_LOCATION)location;
     }
 
     public override void ActionEnd()

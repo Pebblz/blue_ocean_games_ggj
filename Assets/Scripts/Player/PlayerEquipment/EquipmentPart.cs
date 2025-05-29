@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.UI;
 
 public enum PART_LOCATION
 {
@@ -16,6 +15,7 @@ public abstract class EquipmentPart
     public PlayerMovement movement;
     public PART_LOCATION partLocation;
     protected GameObject partObject;
+    public GameObject partInventoryItem;
     public Dictionary<PLAYER_STATS, int> playerStatChanges;
     public Rigidbody body;
     public AudioManager audioManager;

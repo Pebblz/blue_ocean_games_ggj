@@ -8,6 +8,8 @@ TagManager:
   - Interactible
   - Timer
   - AudioManager
+  - Inventory
+  - UI
   layers:
   - Default
   - TransparentFX
