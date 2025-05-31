@@ -2425,6 +2425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98aca6b6ab80c884089c9a7a6678555e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 4423198985031800697}
 --- !u!136 &4031280246120055331
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2686,6 +2687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98aca6b6ab80c884089c9a7a6678555e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
 --- !u!95 &4423198985031800697
 Animator:
   serializedVersion: 7
